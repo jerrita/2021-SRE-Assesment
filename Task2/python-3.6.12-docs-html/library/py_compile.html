@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>32.10. py_compile — 编译 Python 源文件 &#8212; Python 3.6.12 文档</title>
+    <link rel="stylesheet" href="../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.6.12 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="32.11. compileall — Byte-compile Python libraries" href="compileall.html" />
+    <link rel="prev" title="32.9. pyclbr — Python class browser support" href="pyclbr.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <link rel="canonical" href="https://docs.python.org/3/library/py_compile.html" />
+    
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    
+    
+    
+ 
+
+  </head><body>
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="compileall.html" title="32.11. compileall — Byte-compile Python libraries"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="pyclbr.html" title="32.9. pyclbr — Python class browser support"
+             accesskey="P">上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <a href="../index.html">3.6.12 Documentation</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="language.html" accesskey="U"><span class="section-number">32. </span>Python 语言服务</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-py_compile">
+<span id="py-compile-compile-python-source-files"></span><h1><span class="section-number">32.10. </span><a class="reference internal" href="#module-py_compile" title="py_compile: Generate byte-code files from Python source files."><code class="xref py py-mod docutils literal notranslate"><span class="pre">py_compile</span></code></a> — 编译 Python 源文件<a class="headerlink" href="#module-py_compile" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.6/Lib/py_compile.py">Lib/py_compile.py</a></p>
+<hr class="docutils" id="index-0" />
+<p><a class="reference internal" href="#module-py_compile" title="py_compile: Generate byte-code files from Python source files."><code class="xref py py-mod docutils literal notranslate"><span class="pre">py_compile</span></code></a> 模块提供了用来从源文件生成字节码的函数和另一个用于当模块源文件作为脚本被调用时的函数。</p>
+<p>虽然不太常用，但这个函数在安装共享模块时还是很有用的，特别是当一些用户可能没有权限在包含源代码的目录中写字节码缓存文件时。</p>
+<dl class="exception">
+<dt id="py_compile.PyCompileError">
+<em class="property">exception </em><code class="sig-prename descclassname">py_compile.</code><code class="sig-name descname">PyCompileError</code><a class="headerlink" href="#py_compile.PyCompileError" title="永久链接至目标">¶</a></dt>
+<dd><p>当编译文件过程中发生错误时，抛出的异常。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="py_compile.compile">
+<code class="sig-prename descclassname">py_compile.</code><code class="sig-name descname">compile</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">cfile=None</em>, <em class="sig-param">dfile=None</em>, <em class="sig-param">doraise=False</em>, <em class="sig-param">optimize=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#py_compile.compile" title="永久链接至目标">¶</a></dt>
+<dd><p>将源文件编译成字节码，并写出字节码缓存文件。源代码从名为 <em>file</em> 的文件中加载。 字节码写入 <em>cfile</em> ，默认为 <span class="target" id="index-7"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-3147"><strong>PEP 3147</strong></a>/<span class="target" id="index-8"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-0488"><strong>PEP 488</strong></a> 路径，以 <code class="docutils literal notranslate"><span class="pre">.pyc</span></code> 结尾。例如，如果 <em>file</em> 是 <code class="docutils literal notranslate"><span class="pre">/foo/bar/baz.py</span></code> ，那么对于 Python 3.2，<em>cfile</em> 默认为 <code class="docutils literal notranslate"><span class="pre">/foo/bar/__pycache__/baz.cpython-32.pyc</span></code> 。 如果指定了 <em>dfile</em> ，那么在错误信息中，它将代替 <em>file</em> 作为源文件的名称。 如果 <em>doraise</em> 为true，当编译 <em>file</em> 遇到错误时，会抛出一个 <a class="reference internal" href="#py_compile.PyCompileError" title="py_compile.PyCompileError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">PyCompileError</span></code></a> 。如果 <em>doraise</em> 为 false (默认值)，错误字符串将写入 <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code> ，但不会抛出异常。 该函数返回编译后字节文件的路径，即 <em>cfile</em> 的值。</p>
+<p>如果 <em>cfile</em> 所表示（显式指定或计算得出）的路径为符号链接或非常规文件，则将引发 <a class="reference internal" href="exceptions.html#FileExistsError" title="FileExistsError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">FileExistsError</span></code></a>。 此行为是用来警告如果允许写入编译后字节码文件到这些路径则导入操作将会把它们转为常规文件。 这是使用文件重命名来将最终编译后字节码文件放置到位以防止并发文件写入问题的导入操作的附带效果。</p>
+<p><em>optimize</em> 控制优化级别并会被传给内置的 <a class="reference internal" href="functions.html#compile" title="compile"><code class="xref py py-func docutils literal notranslate"><span class="pre">compile()</span></code></a> 函数。 默认值 <code class="docutils literal notranslate"><span class="pre">-1</span></code> 表示选择当前解释器的优化级别。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2 版更改: </span>将 <em>cfile</em> 的默认值改成与 <span class="target" id="index-9"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-3147"><strong>PEP 3147</strong></a> 兼容。 之前的默认值是 <em>file</em> + <code class="docutils literal notranslate"><span class="pre">'c'</span></code> (如果启用优化则为 <code class="docutils literal notranslate"><span class="pre">'o'</span></code>)。 同时也添加了 <em>optimize</em> 形参。</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>将代码更改为使用 <a class="reference internal" href="importlib.html#module-importlib" title="importlib: The implementation of the import machinery."><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib</span></code></a> 执行字节码缓存文件写入。 这意味着文件创建/写入的语义现在与 <a class="reference internal" href="importlib.html#module-importlib" title="importlib: The implementation of the import machinery."><code class="xref py py-mod docutils literal notranslate"><span class="pre">importlib</span></code></a> 所做的相匹配，例如权限、写入和移动语义等等。 同时也添加了当 <em>cfile</em> 为符号链接或非常规文件时引发 <a class="reference internal" href="exceptions.html#FileExistsError" title="FileExistsError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">FileExistsError</span></code></a> 的预警设置。</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="py_compile.main">
+<code class="sig-prename descclassname">py_compile.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><em class="sig-param">args=None</em><span class="sig-paren">)</span><a class="headerlink" href="#py_compile.main" title="永久链接至目标">¶</a></dt>
+<dd><p>编译多个源文件。 在 <em>args</em> 中（或者当 <em>args</em> 为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 时则是在命令行中）指定的文件会被编译并将结果字节码以正常方式来缓存。 此函数不会搜索目录结构来定位源文件；它只编译显式指定的文件。 如果 <code class="docutils literal notranslate"><span class="pre">'-'</span></code> 是 args 中唯一的值，则会从标准输入获取文件列表。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2 版更改: </span>添加了对 <code class="docutils literal notranslate"><span class="pre">'-'</span></code> 的支持。</p>
+</div>
+</dd></dl>
+
+<p>当此模块作为脚本运行时，会使用 <a class="reference internal" href="#py_compile.main" title="py_compile.main"><code class="xref py py-func docutils literal notranslate"><span class="pre">main()</span></code></a> 来编译命令行中指定的所有文件。 如果某个文件无法被编译则退出状态将为非零值。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt>模块 <a class="reference internal" href="compileall.html#module-compileall" title="compileall: Tools for byte-compiling all Python source files in a directory tree."><code class="xref py py-mod docutils literal notranslate"><span class="pre">compileall</span></code></a></dt><dd><p>编译一个目录树中所有 Python 源文件的工具。</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="pyclbr.html"
+                        title="上一章"><span class="section-number">32.9. </span><code class="xref py py-mod docutils literal notranslate"><span class="pre">pyclbr</span></code> — Python class browser support</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="compileall.html"
+                        title="下一章"><span class="section-number">32.11. </span><code class="xref py py-mod docutils literal notranslate"><span class="pre">compileall</span></code> — Byte-compile Python libraries</a></p>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.6/Doc/library/py_compile.rst"
+            rel="nofollow">显示源代码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="compileall.html" title="32.11. compileall — Byte-compile Python libraries"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="pyclbr.html" title="32.9. pyclbr — Python class browser support"
+             >上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <a href="../index.html">3.6.12 Documentation</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="language.html" ><span class="section-number">32. </span>Python 语言服务</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2020, Python Software Foundation.
+    <br />
+    Python 软件基金会是一个非盈利组织。
+    <a href="https://www.python.org/psf/donations/">请捐助。</a>
+    <br />
+    最后更新于 10月 06, 2020.
+    <a href="../bugs.html">发现了问题</a>？
+    <br />
+    使用<a href="http://sphinx.pocoo.org/">Sphinx</a>2.3.1 创建。
+    </div>
+
+  </body>
+</html>

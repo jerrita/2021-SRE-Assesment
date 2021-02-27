@@ -1,0 +1,379 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>14.5. plistlib — 生成与解析 Mac OS X .plist 文件 &#8212; Python 3.6.12 文档</title>
+    <link rel="stylesheet" href="../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.6.12 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="15. 加密服务" href="crypto.html" />
+    <link rel="prev" title="14.4. xdrlib — 编码与解码 XDR 数据" href="xdrlib.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <link rel="canonical" href="https://docs.python.org/3/library/plistlib.html" />
+    
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    
+    
+    
+ 
+
+  </head><body>
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="crypto.html" title="15. 加密服务"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="xdrlib.html" title="14.4. xdrlib — 编码与解码 XDR 数据"
+             accesskey="P">上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <a href="../index.html">3.6.12 Documentation</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="fileformats.html" accesskey="U"><span class="section-number">14. </span>文件格式</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-plistlib">
+<span id="plistlib-generate-and-parse-mac-os-x-plist-files"></span><h1><span class="section-number">14.5. </span><a class="reference internal" href="#module-plistlib" title="plistlib: Generate and parse Mac OS X plist files."><code class="xref py py-mod docutils literal notranslate"><span class="pre">plistlib</span></code></a> — 生成与解析 Mac OS X <code class="docutils literal notranslate"><span class="pre">.plist</span></code> 文件<a class="headerlink" href="#module-plistlib" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.6/Lib/plistlib.py">Lib/plistlib.py</a></p>
+<hr class="docutils" id="index-0" />
+<p>此模块提供了读写主要用于 Mac OS X 的 “property list” 文件的接口，并同时支持二进制和 XML plist 文件。</p>
+<p>property list (<code class="docutils literal notranslate"><span class="pre">.plist</span></code>) 文件格式是一种简单的序列化格式，它支持一些基本对象类型，例如字典、列表、数字和字符串等。 通常使用一个字典作为最高层级对象。</p>
+<p>要写入和解析 plist 文件，请使用 <a class="reference internal" href="#plistlib.dump" title="plistlib.dump"><code class="xref py py-func docutils literal notranslate"><span class="pre">dump()</span></code></a> 和 <a class="reference internal" href="#plistlib.load" title="plistlib.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">load()</span></code></a> 函数。</p>
+<p>要以字节串对象形式操作 plist 数据，请使用 <a class="reference internal" href="#plistlib.dumps" title="plistlib.dumps"><code class="xref py py-func docutils literal notranslate"><span class="pre">dumps()</span></code></a> 和 <a class="reference internal" href="#plistlib.loads" title="plistlib.loads"><code class="xref py py-func docutils literal notranslate"><span class="pre">loads()</span></code></a>。</p>
+<p>值可以为字符串、整数、浮点数、布尔值、元组、列表、字典（但只允许用字符串作为键）、<a class="reference internal" href="#plistlib.Data" title="plistlib.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a>、<a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>、<code class="xref py py-class docutils literal notranslate"><span class="pre">bytesarray</span></code> 或 <a class="reference internal" href="datetime.html#datetime.datetime" title="datetime.datetime"><code class="xref py py-class docutils literal notranslate"><span class="pre">datetime.datetime</span></code></a> 对象。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>新版 API，旧版 API 已被弃用。 添加了对二进制 plist 格式的支持。</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<dl class="simple">
+<dt><a class="reference external" href="https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man5/plist.5.html">PList manual page</a></dt><dd><p>针对该文件格式的 Apple 文档。</p>
+</dd>
+</dl>
+</div>
+<p>这个模块定义了以下函数：</p>
+<dl class="function">
+<dt id="plistlib.load">
+<code class="sig-prename descclassname">plistlib.</code><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">fp</em>, <em class="sig-param">*</em>, <em class="sig-param">fmt=None</em>, <em class="sig-param">use_builtin_types=True</em>, <em class="sig-param">dict_type=dict</em><span class="sig-paren">)</span><a class="headerlink" href="#plistlib.load" title="永久链接至目标">¶</a></dt>
+<dd><p>读取 plist 文件。 <em>fp</em> 应当可读并且为二进制文件对象。 返回已解包的根对象（通常是一个字典）。</p>
+<p><em>fmt</em> 为文件的格式，有效的值如下:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="constants.html#None" title="None"><code class="xref py py-data docutils literal notranslate"><span class="pre">None</span></code></a>: 自动检测文件格式</p></li>
+<li><p><a class="reference internal" href="#plistlib.FMT_XML" title="plistlib.FMT_XML"><code class="xref py py-data docutils literal notranslate"><span class="pre">FMT_XML</span></code></a>: XML 文件格式</p></li>
+<li><p><a class="reference internal" href="#plistlib.FMT_BINARY" title="plistlib.FMT_BINARY"><code class="xref py py-data docutils literal notranslate"><span class="pre">FMT_BINARY</span></code></a>: 二进制 plist 格式</p></li>
+</ul>
+<p>如果 <em>use_builtin_types</em> 为真值（默认）则将以 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 实例的形式返回二进制数据，否则将以 <a class="reference internal" href="#plistlib.Data" title="plistlib.Data"><code class="xref py py-class docutils literal notranslate"><span class="pre">Data</span></code></a> 实例的形式返回。</p>
+<p>The <em>dict_type</em> is the type used for dictionaries that are read from the
+plist file. The exact structure of the plist can be recovered by using
+<a class="reference internal" href="collections.html#collections.OrderedDict" title="collections.OrderedDict"><code class="xref py py-class docutils literal notranslate"><span class="pre">collections.OrderedDict</span></code></a> (although the order of keys shouldn’t be
+important in plist files).</p>
+<p><a class="reference internal" href="#plistlib.FMT_XML" title="plistlib.FMT_XML"><code class="xref py py-data docutils literal notranslate"><span class="pre">FMT_XML</span></code></a> 格式的 XML 数据 会使用来自 <a class="reference internal" href="pyexpat.html#module-xml.parsers.expat" title="xml.parsers.expat: An interface to the Expat non-validating XML parser."><code class="xref py py-mod docutils literal notranslate"><span class="pre">xml.parsers.expat</span></code></a> 的 Expat 解析器 – 请参阅其文档了解错误格式 XML 可能引发的异常。 未知元素将被 plist 解析器直接略过。</p>
+<p>当文件无法被解析时二进制格式的解析器将引发 <code class="xref py py-exc docutils literal notranslate"><span class="pre">InvalidFileException</span></code>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="plistlib.loads">
+<code class="sig-prename descclassname">plistlib.</code><code class="sig-name descname">loads</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">*</em>, <em class="sig-param">fmt=None</em>, <em class="sig-param">use_builtin_types=True</em>, <em class="sig-param">dict_type=dict</em><span class="sig-paren">)</span><a class="headerlink" href="#plistlib.loads" title="永久链接至目标">¶</a></dt>
+<dd><p>从一个 bytes 对象加载 plist。 参阅 <a class="reference internal" href="#plistlib.load" title="plistlib.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">load()</span></code></a> 获取相应关键字参数的说明。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="plistlib.dump">
+<code class="sig-prename descclassname">plistlib.</code><code class="sig-name descname">dump</code><span class="sig-paren">(</span><em class="sig-param">value</em>, <em class="sig-param">fp</em>, <em class="sig-param">*</em>, <em class="sig-param">fmt=FMT_XML</em>, <em class="sig-param">sort_keys=True</em>, <em class="sig-param">skipkeys=False</em><span class="sig-paren">)</span><a class="headerlink" href="#plistlib.dump" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em>value</em> 写入 plist 文件。 <em>Fp</em> 应当可写并且为二进制文件对象。</p>
+<p><em>fmt</em> 参数指定 plist 文件的格式，可以是以下值之一:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#plistlib.FMT_XML" title="plistlib.FMT_XML"><code class="xref py py-data docutils literal notranslate"><span class="pre">FMT_XML</span></code></a>: XML 格式的 plist 文件</p></li>
+<li><p><a class="reference internal" href="#plistlib.FMT_BINARY" title="plistlib.FMT_BINARY"><code class="xref py py-data docutils literal notranslate"><span class="pre">FMT_BINARY</span></code></a>: 二进制格式的 plist 文件</p></li>
+</ul>
+<p>当 <em>sort_keys</em> 为真值（默认）时字典的键将经过排序再写入 plist，否则将按字典的迭代顺序写入。</p>
+<p>当 <em>skipkeys</em> 为假值（默认）时该函数将在字典的键不为字符串时引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>，否则将跳过这样的键。</p>
+<p>如果对象是不受支持的类型或者是包含不受支持类型的对象的容器则将引发 <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>。</p>
+<p>对于无法在（二进制）plist 文件中表示的整数值，将会引发 <a class="reference internal" href="exceptions.html#OverflowError" title="OverflowError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">OverflowError</span></code></a>。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="plistlib.dumps">
+<code class="sig-prename descclassname">plistlib.</code><code class="sig-name descname">dumps</code><span class="sig-paren">(</span><em class="sig-param">value</em>, <em class="sig-param">*</em>, <em class="sig-param">fmt=FMT_XML</em>, <em class="sig-param">sort_keys=True</em>, <em class="sig-param">skipkeys=False</em><span class="sig-paren">)</span><a class="headerlink" href="#plistlib.dumps" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em>value</em> 以 plist 格式字节串对象的形式返回。 参阅 <a class="reference internal" href="#plistlib.dump" title="plistlib.dump"><code class="xref py py-func docutils literal notranslate"><span class="pre">dump()</span></code></a> 的文档获取此函数的关键字参数的说明。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<p>以下函数已被弃用:</p>
+<dl class="function">
+<dt id="plistlib.readPlist">
+<code class="sig-prename descclassname">plistlib.</code><code class="sig-name descname">readPlist</code><span class="sig-paren">(</span><em class="sig-param">pathOrFile</em><span class="sig-paren">)</span><a class="headerlink" href="#plistlib.readPlist" title="永久链接至目标">¶</a></dt>
+<dd><p>读取 plist 文件。 <em>pathOrFile</em> 可以是文件名或（可读并且为二进制的）文件对象。 返回已解包的根对象（通常是一个字典）。</p>
+<p>此函数会调用 <a class="reference internal" href="#plistlib.load" title="plistlib.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">load()</span></code></a> 来完成实际操作，请参阅 <a class="reference internal" href="#plistlib.load" title="plistlib.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">该函数</span></code></a> 的文档获取相应关键字参数的说明。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>Dict values in the result have a <code class="docutils literal notranslate"><span class="pre">__getattr__</span></code> method that defers
+to <code class="docutils literal notranslate"><span class="pre">__getitem_</span></code>. This means that you can use attribute access to
+access items of these dictionaries.</p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.4 版后已移除: </span>使用 <a class="reference internal" href="#plistlib.load" title="plistlib.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">load()</span></code></a> 来代替。</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="plistlib.writePlist">
+<code class="sig-prename descclassname">plistlib.</code><code class="sig-name descname">writePlist</code><span class="sig-paren">(</span><em class="sig-param">rootObject</em>, <em class="sig-param">pathOrFile</em><span class="sig-paren">)</span><a class="headerlink" href="#plistlib.writePlist" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em>rootObject</em> 写入 XML plist 文件。 <em>pathOrFile</em> 可以是文件名或（可写并且为二进制的）文件对象。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.4 版后已移除: </span>使用 <a class="reference internal" href="#plistlib.dump" title="plistlib.dump"><code class="xref py py-func docutils literal notranslate"><span class="pre">dump()</span></code></a> 来代替。</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="plistlib.readPlistFromBytes">
+<code class="sig-prename descclassname">plistlib.</code><code class="sig-name descname">readPlistFromBytes</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#plistlib.readPlistFromBytes" title="永久链接至目标">¶</a></dt>
+<dd><p>从字节串对象读取 plist 数据。 返回根对象。</p>
+<p>参阅 <a class="reference internal" href="#plistlib.load" title="plistlib.load"><code class="xref py py-func docutils literal notranslate"><span class="pre">load()</span></code></a> 获取相应关键字参数的说明。</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>Dict values in the result have a <code class="docutils literal notranslate"><span class="pre">__getattr__</span></code> method that defers
+to <code class="docutils literal notranslate"><span class="pre">__getitem_</span></code>. This means that you can use attribute access to
+access items of these dictionaries.</p>
+</div>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.4 版后已移除: </span>使用 <a class="reference internal" href="#plistlib.loads" title="plistlib.loads"><code class="xref py py-func docutils literal notranslate"><span class="pre">loads()</span></code></a> 来代替。</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="plistlib.writePlistToBytes">
+<code class="sig-prename descclassname">plistlib.</code><code class="sig-name descname">writePlistToBytes</code><span class="sig-paren">(</span><em class="sig-param">rootObject</em><span class="sig-paren">)</span><a class="headerlink" href="#plistlib.writePlistToBytes" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em>rootObject</em> 作为 XML plist 格式的字节串对象返回。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.4 版后已移除: </span>使用 <a class="reference internal" href="#plistlib.dumps" title="plistlib.dumps"><code class="xref py py-func docutils literal notranslate"><span class="pre">dumps()</span></code></a> 来代替。</p>
+</div>
+</dd></dl>
+
+<p>可以使用以下的类:</p>
+<dl class="class">
+<dt>
+<code class="sig-name descname">Dict([dict]):</code></dt>
+<dd><p>Return an extended mapping object with the same value as dictionary
+<em>dict</em>.</p>
+<p>This class is a subclass of <a class="reference internal" href="stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> where attribute access can
+be used to access items. That is, <code class="docutils literal notranslate"><span class="pre">aDict.key</span></code> is the same as
+<code class="docutils literal notranslate"><span class="pre">aDict['key']</span></code> for getting, setting and deleting items in the mapping.</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.0 版后已移除.</span></p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="plistlib.Data">
+<em class="property">class </em><code class="sig-prename descclassname">plistlib.</code><code class="sig-name descname">Data</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#plistlib.Data" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个包含字节串对象 <em>data</em> 的 “data” 包装器对象。 该类将在对 plist 进行双向转换的函数中被用来代表 plist 中可用的 <code class="docutils literal notranslate"><span class="pre">&lt;data&gt;</span></code> 类型。</p>
+<p>它具有一个属性 <code class="xref py py-attr docutils literal notranslate"><span class="pre">data</span></code>，可被用来提取其中所保存的 Python 字节串对象。</p>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">3.4 版后已移除: </span>使用 <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> 对象来代替。</p>
+</div>
+</dd></dl>
+
+<p>可以使用以下的常量:</p>
+<dl class="data">
+<dt id="plistlib.FMT_XML">
+<code class="sig-prename descclassname">plistlib.</code><code class="sig-name descname">FMT_XML</code><a class="headerlink" href="#plistlib.FMT_XML" title="永久链接至目标">¶</a></dt>
+<dd><p>用于 plist 文件的 XML 格式。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<dl class="data">
+<dt id="plistlib.FMT_BINARY">
+<code class="sig-prename descclassname">plistlib.</code><code class="sig-name descname">FMT_BINARY</code><a class="headerlink" href="#plistlib.FMT_BINARY" title="永久链接至目标">¶</a></dt>
+<dd><p>用于 plist 文件的二进制格式。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.4 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<div class="section" id="examples">
+<h2><span class="section-number">14.5.1. </span>例子<a class="headerlink" href="#examples" title="永久链接至标题">¶</a></h2>
+<p>生成一个 plist:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">aString</span> <span class="o">=</span> <span class="s2">&quot;Doodah&quot;</span><span class="p">,</span>
+    <span class="n">aList</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mf">32.1</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span>
+    <span class="n">aFloat</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">anInt</span> <span class="o">=</span> <span class="mi">728</span><span class="p">,</span>
+    <span class="n">aDict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">anotherString</span> <span class="o">=</span> <span class="s2">&quot;&lt;hello &amp; hi there!&gt;&quot;</span><span class="p">,</span>
+        <span class="n">aThirdString</span> <span class="o">=</span> <span class="s2">&quot;M</span><span class="se">\xe4</span><span class="s2">ssig, Ma</span><span class="se">\xdf</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">aTrueValue</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">aFalseValue</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">someData</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&lt;binary gunk&gt;&quot;</span><span class="p">,</span>
+    <span class="n">someMoreData</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&lt;lots of binary gunk&gt;&quot;</span> <span class="o">*</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">aDate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">mktime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">())),</span>
+<span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="n">dump</span><span class="p">(</span><span class="n">pl</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>解析一个 plist:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fileName</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="n">pl</span> <span class="o">=</span> <span class="n">load</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pl</span><span class="p">[</span><span class="s2">&quot;aKey&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">14.5. <code class="xref py py-mod docutils literal notranslate"><span class="pre">plistlib</span></code> — 生成与解析 Mac OS X <code class="docutils literal notranslate"><span class="pre">.plist</span></code> 文件</a><ul>
+<li><a class="reference internal" href="#examples">14.5.1. 例子</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="xdrlib.html"
+                        title="上一章"><span class="section-number">14.4. </span><code class="xref py py-mod docutils literal notranslate"><span class="pre">xdrlib</span></code> — 编码与解码 XDR 数据</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="crypto.html"
+                        title="下一章"><span class="section-number">15. </span>加密服务</a></p>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.6/Doc/library/plistlib.rst"
+            rel="nofollow">显示源代码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="crypto.html" title="15. 加密服务"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="xdrlib.html" title="14.4. xdrlib — 编码与解码 XDR 数据"
+             >上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <a href="../index.html">3.6.12 Documentation</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="fileformats.html" ><span class="section-number">14. </span>文件格式</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2020, Python Software Foundation.
+    <br />
+    Python 软件基金会是一个非盈利组织。
+    <a href="https://www.python.org/psf/donations/">请捐助。</a>
+    <br />
+    最后更新于 10月 06, 2020.
+    <a href="../bugs.html">发现了问题</a>？
+    <br />
+    使用<a href="http://sphinx.pocoo.org/">Sphinx</a>2.3.1 创建。
+    </div>
+
+  </body>
+</html>
