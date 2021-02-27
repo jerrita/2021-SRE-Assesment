@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>13. 数据压缩和存档 &#8212; Python 3.6.12 文档</title>
+    <link rel="stylesheet" href="../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.6.12 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="13.1. zlib — 与 gzip 兼容的压缩" href="zlib.html" />
+    <link rel="prev" title="12.6. sqlite3 — SQLite 数据库 DB-API 2.0 接口模块" href="sqlite3.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <link rel="canonical" href="https://docs.python.org/3/library/archiving.html" />
+    
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    
+    
+    
+ 
+
+  </head><body>
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="zlib.html" title="13.1. zlib — 与 gzip 兼容的压缩"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="sqlite3.html" title="12.6. sqlite3 — SQLite 数据库 DB-API 2.0 接口模块"
+             accesskey="P">上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <a href="../index.html">3.6.12 Documentation</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python 标准库</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="data-compression-and-archiving">
+<span id="archiving"></span><h1><span class="section-number">13. </span>数据压缩和存档<a class="headerlink" href="#data-compression-and-archiving" title="永久链接至标题">¶</a></h1>
+<p>本章中描述的模块支持 zlib、gzip、bzip2 和 lzma 数据压缩算法，以及创建 ZIP 和 tar 格式的归档文件。参见由 <a class="reference internal" href="shutil.html#module-shutil" title="shutil: High-level file operations, including copying."><code class="xref py py-mod docutils literal notranslate"><span class="pre">shutil</span></code></a> 模块提供的 <a class="reference internal" href="shutil.html#archiving-operations"><span class="std std-ref">归档操作</span></a> 。</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="zlib.html">13.1. <code class="xref py py-mod docutils literal notranslate"><span class="pre">zlib</span></code> — 与 <strong class="program">gzip</strong> 兼容的压缩</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gzip.html">13.2. <code class="xref py py-mod docutils literal notranslate"><span class="pre">gzip</span></code> — 对 <strong class="program">gzip</strong> 格式的支持</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gzip.html#examples-of-usage">13.2.1. 用法示例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bz2.html">13.3. <code class="xref py py-mod docutils literal notranslate"><span class="pre">bz2</span></code> — 对 <strong class="program">bzip2</strong> 压缩算法的支持</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bz2.html#de-compression-of-files">13.3.1. 文件压缩和解压</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bz2.html#incremental-de-compression">13.3.2. 增量压缩和解压</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bz2.html#one-shot-de-compression">13.3.3. 一次性压缩或解压</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lzma.html">13.4. <code class="xref py py-mod docutils literal notranslate"><span class="pre">lzma</span></code> — 用 LZMA 算法压缩</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lzma.html#reading-and-writing-compressed-files">13.4.1. 读写压缩文件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lzma.html#compressing-and-decompressing-data-in-memory">13.4.2. 在内存中压缩和解压缩数据</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lzma.html#miscellaneous">13.4.3. 杂项</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lzma.html#specifying-custom-filter-chains">13.4.4. 指定自定义的过滤器链</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lzma.html#examples">13.4.5. 例子</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="zipfile.html">13.5. <code class="xref py py-mod docutils literal notranslate"><span class="pre">zipfile</span></code> — 使用ZIP存档</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="zipfile.html#zipfile-objects">13.5.1. ZipFile 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zipfile.html#pyzipfile-objects">13.5.2. PyZipFile 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zipfile.html#zipinfo-objects">13.5.3. ZipInfo 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="zipfile.html#command-line-interface">13.5.4. 命令行界面</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="zipfile.html#command-line-options">13.5.4.1. 命令行选项</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tarfile.html">13.6. <code class="xref py py-mod docutils literal notranslate"><span class="pre">tarfile</span></code> — 读写tar归档文件</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tarfile.html#tarfile-objects">13.6.1. TarFile 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tarfile.html#tarinfo-objects">13.6.2. TarInfo 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tarfile.html#command-line-interface">13.6.3. 命令行界面</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tarfile.html#command-line-options">13.6.3.1. 命令行选项</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tarfile.html#examples">13.6.4. 例子</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tarfile.html#supported-tar-formats">13.6.5. 受支持的 tar 格式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tarfile.html#unicode-issues">13.6.6. Unicode 问题</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="sqlite3.html"
+                        title="上一章"><span class="section-number">12.6. </span><code class="xref py py-mod docutils literal notranslate"><span class="pre">sqlite3</span></code> — SQLite 数据库 DB-API 2.0 接口模块</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="zlib.html"
+                        title="下一章"><span class="section-number">13.1. </span><code class="xref py py-mod docutils literal notranslate"><span class="pre">zlib</span></code> — 与 <strong class="program">gzip</strong> 兼容的压缩</a></p>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.6/Doc/library/archiving.rst"
+            rel="nofollow">显示源代码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="zlib.html" title="13.1. zlib — 与 gzip 兼容的压缩"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="sqlite3.html" title="12.6. sqlite3 — SQLite 数据库 DB-API 2.0 接口模块"
+             >上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <a href="../index.html">3.6.12 Documentation</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2020, Python Software Foundation.
+    <br />
+    Python 软件基金会是一个非盈利组织。
+    <a href="https://www.python.org/psf/donations/">请捐助。</a>
+    <br />
+    最后更新于 10月 06, 2020.
+    <a href="../bugs.html">发现了问题</a>？
+    <br />
+    使用<a href="http://sphinx.pocoo.org/">Sphinx</a>2.3.1 创建。
+    </div>
+
+  </body>
+</html>
