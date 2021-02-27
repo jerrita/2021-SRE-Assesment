@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>18.5.2. 事件循环 &#8212; Python 3.6.12 文档</title>
+    <link rel="stylesheet" href="../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.6.12 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="18.5.3. Tasks and coroutines" href="asyncio-task.html" />
+    <link rel="prev" title="18.5.1. Base Event Loop" href="asyncio-eventloop.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <link rel="canonical" href="https://docs.python.org/3/library/asyncio-eventloops.html" />
+    
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    
+    
+    
+ 
+
+  </head><body>
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="asyncio-task.html" title="18.5.3. Tasks and coroutines"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="asyncio-eventloop.html" title="18.5.1. Base Event Loop"
+             accesskey="P">上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <a href="../index.html">3.6.12 Documentation</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="ipc.html" ><span class="section-number">18. </span>Interprocess Communication and Networking</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="asyncio.html" accesskey="U"><span class="section-number">18.5. </span><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> — Asynchronous I/O, event loop, coroutines and tasks</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="event-loops">
+<h1><span class="section-number">18.5.2. </span>事件循环<a class="headerlink" href="#event-loops" title="永久链接至标题">¶</a></h1>
+<p><strong>源码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.6/Lib/asyncio/events.py">Lib/asyncio/events.py</a></p>
+<div class="section" id="event-loop-functions">
+<h2><span class="section-number">18.5.2.1. </span>事件循环函数<a class="headerlink" href="#event-loop-functions" title="永久链接至标题">¶</a></h2>
+<p>下面的函数是访问全局策略方法的便利快捷方式。注意这只是提供了对默认策略的访问，除非要在进程开始之前设置替代的策略。</p>
+<dl class="function">
+<dt id="asyncio.get_event_loop">
+<code class="sig-prename descclassname">asyncio.</code><code class="sig-name descname">get_event_loop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.get_event_loop" title="永久链接至目标">¶</a></dt>
+<dd><p>与调用 <code class="docutils literal notranslate"><span class="pre">get_event_loop_policy().get_event_loop()</span></code> 等价。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="asyncio.set_event_loop">
+<code class="sig-prename descclassname">asyncio.</code><code class="sig-name descname">set_event_loop</code><span class="sig-paren">(</span><em class="sig-param">loop</em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.set_event_loop" title="永久链接至目标">¶</a></dt>
+<dd><p>等价于调用 <code class="docutils literal notranslate"><span class="pre">get_event_loop_policy().set_event_loop(loop)</span></code>。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="asyncio.new_event_loop">
+<code class="sig-prename descclassname">asyncio.</code><code class="sig-name descname">new_event_loop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.new_event_loop" title="永久链接至目标">¶</a></dt>
+<dd><p>等价于调用 <code class="docutils literal notranslate"><span class="pre">get_event_loop_policy().new_event_loop()</span></code>。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="available-event-loops">
+<span id="asyncio-event-loops"></span><h2><span class="section-number">18.5.2.2. </span>可用的事件循环<a class="headerlink" href="#available-event-loops" title="永久链接至标题">¶</a></h2>
+<p>asyncio当前提供两种事件循环实现： <a class="reference internal" href="#asyncio.SelectorEventLoop" title="asyncio.SelectorEventLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">SelectorEventLoop</span></code></a> 和 <a class="reference internal" href="#asyncio.ProactorEventLoop" title="asyncio.ProactorEventLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProactorEventLoop</span></code></a> 。</p>
+<dl class="class">
+<dt id="asyncio.SelectorEventLoop">
+<em class="property">class </em><code class="sig-prename descclassname">asyncio.</code><code class="sig-name descname">SelectorEventLoop</code><a class="headerlink" href="#asyncio.SelectorEventLoop" title="永久链接至目标">¶</a></dt>
+<dd><p>基于 <a class="reference internal" href="selectors.html#module-selectors" title="selectors: High-level I/O multiplexing."><code class="xref py py-mod docutils literal notranslate"><span class="pre">selectors</span></code></a> 模块的事件循环。 <a class="reference internal" href="asyncio-eventloop.html#asyncio.AbstractEventLoop" title="asyncio.AbstractEventLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEventLoop</span></code></a> 的子类。</p>
+<p>使用对应平台上最高效的选择器。</p>
+<p>在Windows上，只支持套接字（举例：不支持管线）：参见 <cite>MSDN关于select的文档 &lt;https://msdn.microsoft.com/en-us/library/windows/desktop/ms740141%28v=vs.85%29.aspx&gt;</cite> _ 。</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="asyncio.ProactorEventLoop">
+<em class="property">class </em><code class="sig-prename descclassname">asyncio.</code><code class="sig-name descname">ProactorEventLoop</code><a class="headerlink" href="#asyncio.ProactorEventLoop" title="永久链接至目标">¶</a></dt>
+<dd><p>Windows上的 Proactor 事件循环，使用的是 “I/O 完成端口”，也叫做 IOCP。为 <a class="reference internal" href="asyncio-eventloop.html#asyncio.AbstractEventLoop" title="asyncio.AbstractEventLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEventLoop</span></code></a> 的子类。</p>
+<p>可用性：Windows。</p>
+<div class="admonition seealso">
+<p class="admonition-title">参见</p>
+<p><a class="reference external" href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa365198%28v=vs.85%29.aspx">MSDN上关于 I/O完成端口的文档</a> 。</p>
+</div>
+</dd></dl>
+
+<p>在Windows上使用 <a class="reference internal" href="#asyncio.ProactorEventLoop" title="asyncio.ProactorEventLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProactorEventLoop</span></code></a> 的例子:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span><span class="o">,</span> <span class="nn">sys</span>
+
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s1">&#39;win32&#39;</span><span class="p">:</span>
+    <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">ProactorEventLoop</span><span class="p">()</span>
+    <span class="n">asyncio</span><span class="o">.</span><span class="n">set_event_loop</span><span class="p">(</span><span class="n">loop</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="platform-support">
+<span id="asyncio-platform-support"></span><h2><span class="section-number">18.5.2.3. </span>平台支持<a class="headerlink" href="#platform-support" title="永久链接至标题">¶</a></h2>
+<p><a class="reference internal" href="asyncio.html#module-asyncio" title="asyncio: Asynchronous I/O, event loop, coroutines and tasks."><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code></a> 模块被设计为可移植的，但是每个平台仍旧有细微的不同，而且不一定支持 <a class="reference internal" href="asyncio.html#module-asyncio" title="asyncio: Asynchronous I/O, event loop, coroutines and tasks."><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code></a> 的所有特性。</p>
+<div class="section" id="windows">
+<h3><span class="section-number">18.5.2.3.1. </span>Windows<a class="headerlink" href="#windows" title="永久链接至标题">¶</a></h3>
+<p>Windows事件循环的一般限制：</p>
+<ul class="simple">
+<li><p>不支持 <a class="reference internal" href="asyncio-eventloop.html#asyncio.AbstractEventLoop.create_unix_connection" title="asyncio.AbstractEventLoop.create_unix_connection"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_unix_connection()</span></code></a> 和 <a class="reference internal" href="asyncio-eventloop.html#asyncio.AbstractEventLoop.create_unix_server" title="asyncio.AbstractEventLoop.create_unix_server"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_unix_server()</span></code></a>：<a class="reference internal" href="socket.html#socket.AF_UNIX" title="socket.AF_UNIX"><code class="xref py py-data docutils literal notranslate"><span class="pre">socket.AF_UNIX</span></code></a> 套接字族只在UNIX上可用</p></li>
+<li><p>不支持 <a class="reference internal" href="asyncio-eventloop.html#asyncio.AbstractEventLoop.add_signal_handler" title="asyncio.AbstractEventLoop.add_signal_handler"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_signal_handler()</span></code></a> 和 <a class="reference internal" href="asyncio-eventloop.html#asyncio.AbstractEventLoop.remove_signal_handler" title="asyncio.AbstractEventLoop.remove_signal_handler"><code class="xref py py-meth docutils literal notranslate"><span class="pre">remove_signal_handler()</span></code></a></p></li>
+<li><p>不支持 <code class="xref py py-meth docutils literal notranslate"><span class="pre">EventLoopPolicy.set_child_watcher()</span></code> 。<a class="reference internal" href="#asyncio.ProactorEventLoop" title="asyncio.ProactorEventLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProactorEventLoop</span></code></a> 支持子进程。监控子进程的实现只有一种，不需要对其进行设置。</p></li>
+</ul>
+<p>特定于 <a class="reference internal" href="#asyncio.SelectorEventLoop" title="asyncio.SelectorEventLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">SelectorEventLoop</span></code></a> 的限制：</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="selectors.html#selectors.SelectSelector" title="selectors.SelectSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">SelectSelector</span></code></a> 只被用于支持套接字，并且最多支持512个套接字。</p></li>
+<li><p><a class="reference internal" href="asyncio-eventloop.html#asyncio.AbstractEventLoop.add_reader" title="asyncio.AbstractEventLoop.add_reader"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_reader()</span></code></a> 和 <a class="reference internal" href="asyncio-eventloop.html#asyncio.AbstractEventLoop.add_writer" title="asyncio.AbstractEventLoop.add_writer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_writer()</span></code></a> 只接受套接字的文件描述符</p></li>
+<li><p>不支持管线（示例：<a class="reference internal" href="asyncio-eventloop.html#asyncio.AbstractEventLoop.connect_read_pipe" title="asyncio.AbstractEventLoop.connect_read_pipe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">connect_read_pipe()</span></code></a>, <a class="reference internal" href="asyncio-eventloop.html#asyncio.AbstractEventLoop.connect_write_pipe" title="asyncio.AbstractEventLoop.connect_write_pipe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">connect_write_pipe()</span></code></a>）</p></li>
+<li><p>不支持 <a class="reference internal" href="asyncio-subprocess.html#asyncio-subprocess"><span class="std std-ref">Subprocesses</span></a>  （示例: <a class="reference internal" href="asyncio-subprocess.html#asyncio.AbstractEventLoop.subprocess_exec" title="asyncio.AbstractEventLoop.subprocess_exec"><code class="xref py py-meth docutils literal notranslate"><span class="pre">subprocess_exec()</span></code></a>, <a class="reference internal" href="asyncio-subprocess.html#asyncio.AbstractEventLoop.subprocess_shell" title="asyncio.AbstractEventLoop.subprocess_shell"><code class="xref py py-meth docutils literal notranslate"><span class="pre">subprocess_shell()</span></code></a>）</p></li>
+</ul>
+<p>特定于 <a class="reference internal" href="#asyncio.ProactorEventLoop" title="asyncio.ProactorEventLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProactorEventLoop</span></code></a> 的限制：</p>
+<ul class="simple">
+<li><p>不支持 <a class="reference internal" href="asyncio-eventloop.html#asyncio.AbstractEventLoop.create_datagram_endpoint" title="asyncio.AbstractEventLoop.create_datagram_endpoint"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_datagram_endpoint()</span></code></a> (UDP)</p></li>
+<li><p>不支持 <a class="reference internal" href="asyncio-eventloop.html#asyncio.AbstractEventLoop.add_reader" title="asyncio.AbstractEventLoop.add_reader"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_reader()</span></code></a> 和 <a class="reference internal" href="asyncio-eventloop.html#asyncio.AbstractEventLoop.add_writer" title="asyncio.AbstractEventLoop.add_writer"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_writer()</span></code></a></p></li>
+</ul>
+<p>Windows上单调时钟的分辨率大约为 15.6 毫秒。最佳的分辨率是 0.5 毫秒。分辨率依赖于具体的硬件（<a class="reference external" href="https://en.wikipedia.org/wiki/High_Precision_Event_Timer">HPET</a> 的可用性）和Windows的设置。参见:ref:<cite>asyncio delayed calls &lt;asyncio-delayed-calls&gt;</cite> 。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.5 版更改: </span><a class="reference internal" href="#asyncio.ProactorEventLoop" title="asyncio.ProactorEventLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProactorEventLoop</span></code></a>  现在支持SSL了。</p>
+</div>
+</div>
+<div class="section" id="mac-os-x">
+<h3><span class="section-number">18.5.2.3.2. </span>Mac OS X<a class="headerlink" href="#mac-os-x" title="永久链接至标题">¶</a></h3>
+<p>类似于PTY的字符设备在Mavericks （Mac OS 10.9）之前并未有很好的支持。在 Mac OS 10.5以及更老的版本上则根本不支持。</p>
+<p>在Mac OS 10.6、10.7和10.8上，默认的事件循环是 <a class="reference internal" href="#asyncio.SelectorEventLoop" title="asyncio.SelectorEventLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">SelectorEventLoop</span></code></a> ，其使用了 <a class="reference internal" href="selectors.html#selectors.KqueueSelector" title="selectors.KqueueSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">selectors.KqueueSelector</span></code></a> 。 <a class="reference internal" href="selectors.html#selectors.KqueueSelector" title="selectors.KqueueSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">selectors.KqueueSelector</span></code></a> 在这些版本上并不支持字符设备。<a class="reference internal" href="#asyncio.SelectorEventLoop" title="asyncio.SelectorEventLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">SelectorEventLoop</span></code></a> 可以同 <a class="reference internal" href="selectors.html#selectors.SelectSelector" title="selectors.SelectSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">SelectSelector</span></code></a> 或者 <a class="reference internal" href="selectors.html#selectors.PollSelector" title="selectors.PollSelector"><code class="xref py py-class docutils literal notranslate"><span class="pre">PollSelector</span></code></a> 一同使用来在这些版本的Mac OS X上支持块设备。 例如:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">import</span> <span class="nn">selectors</span>
+
+<span class="n">selector</span> <span class="o">=</span> <span class="n">selectors</span><span class="o">.</span><span class="n">SelectSelector</span><span class="p">()</span>
+<span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">SelectorEventLoop</span><span class="p">(</span><span class="n">selector</span><span class="p">)</span>
+<span class="n">asyncio</span><span class="o">.</span><span class="n">set_event_loop</span><span class="p">(</span><span class="n">loop</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="event-loop-policies-and-the-default-policy">
+<h2><span class="section-number">18.5.2.4. </span>事件循环策略和默认策略<a class="headerlink" href="#event-loop-policies-and-the-default-policy" title="永久链接至标题">¶</a></h2>
+<p>使用一个 <em>策略</em> 模式对事件循环进行管理，用以为特定平台和框架提供最大限度的灵活性。在一个进程的执行中，唯一的全局策略对象，基于调用的上下文，管理着此进程所有可用的事件循环。一个策略就是一个实现了 <a class="reference internal" href="#asyncio.AbstractEventLoopPolicy" title="asyncio.AbstractEventLoopPolicy"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEventLoopPolicy</span></code></a> 的对象。</p>
+<p>对于 <a class="reference internal" href="asyncio.html#module-asyncio" title="asyncio: Asynchronous I/O, event loop, coroutines and tasks."><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code></a> 的多数使用者来说，从来都不需要显式地处理策略，因为默认的全局策略就已经足够了（看下面）。</p>
+<p>模块级别的函数 <a class="reference internal" href="#asyncio.get_event_loop" title="asyncio.get_event_loop"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_event_loop()</span></code></a> 和 <a class="reference internal" href="#asyncio.set_event_loop" title="asyncio.set_event_loop"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_event_loop()</span></code></a> 对于默认策略管理的事件循环的便利访问方式。</p>
+</div>
+<div class="section" id="event-loop-policy-interface">
+<h2><span class="section-number">18.5.2.5. </span>事件循环策略接口<a class="headerlink" href="#event-loop-policy-interface" title="永久链接至标题">¶</a></h2>
+<p>一个事件循环必须实现如下的接口：</p>
+<dl class="class">
+<dt id="asyncio.AbstractEventLoopPolicy">
+<em class="property">class </em><code class="sig-prename descclassname">asyncio.</code><code class="sig-name descname">AbstractEventLoopPolicy</code><a class="headerlink" href="#asyncio.AbstractEventLoopPolicy" title="永久链接至目标">¶</a></dt>
+<dd><p>事件循环策略。</p>
+<dl class="method">
+<dt id="asyncio.AbstractEventLoopPolicy.get_event_loop">
+<code class="sig-name descname">get_event_loop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.AbstractEventLoopPolicy.get_event_loop" title="永久链接至目标">¶</a></dt>
+<dd><p>为当前上下文获取事件循环。</p>
+<p>返回一个实现了 <a class="reference internal" href="asyncio-eventloop.html#asyncio.AbstractEventLoop" title="asyncio.AbstractEventLoop"><code class="xref py py-class docutils literal notranslate"><span class="pre">AbstractEventLoop</span></code></a> 接口的事件循环对象。如果是从一个协程中调用，就会返回当前正在运行的事件循环。</p>
+<p>如果没有为当前上下文设置一个事件循环，并且当前策略不能创建一个事件循环，就会抛出一个错误。其务必不能返回 <code class="docutils literal notranslate"><span class="pre">None</span></code> 。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改.</span></p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="asyncio.AbstractEventLoopPolicy.set_event_loop">
+<code class="sig-name descname">set_event_loop</code><span class="sig-paren">(</span><em class="sig-param">loop</em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.AbstractEventLoopPolicy.set_event_loop" title="永久链接至目标">¶</a></dt>
+<dd><p>将当前上下文的事件循环设置为  <em>loop</em> 。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="asyncio.AbstractEventLoopPolicy.new_event_loop">
+<code class="sig-name descname">new_event_loop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.AbstractEventLoopPolicy.new_event_loop" title="永久链接至目标">¶</a></dt>
+<dd><p>根据策略的规则，创建并返回一个新的事件循环对象。</p>
+<p>如果有需要设置这个循环作为当前上下文的事件循环，就必须显式调用 <a class="reference internal" href="#asyncio.set_event_loop" title="asyncio.set_event_loop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_event_loop()</span></code></a>  。</p>
+</dd></dl>
+
+</dd></dl>
+
+<p>The default policy defines context as the current thread, and manages an event
+loop per thread that interacts with <a class="reference internal" href="asyncio.html#module-asyncio" title="asyncio: Asynchronous I/O, event loop, coroutines and tasks."><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code></a>.  If the current thread
+doesn’t already have an event loop associated with it, the default policy’s
+<a class="reference internal" href="#asyncio.AbstractEventLoopPolicy.get_event_loop" title="asyncio.AbstractEventLoopPolicy.get_event_loop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_event_loop()</span></code></a> method creates one when
+called from the main thread, but raises <a class="reference internal" href="exceptions.html#RuntimeError" title="RuntimeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">RuntimeError</span></code></a> otherwise.</p>
+</div>
+<div class="section" id="access-to-the-global-loop-policy">
+<h2><span class="section-number">18.5.2.6. </span>访问全局循环策略<a class="headerlink" href="#access-to-the-global-loop-policy" title="永久链接至标题">¶</a></h2>
+<dl class="function">
+<dt id="asyncio.get_event_loop_policy">
+<code class="sig-prename descclassname">asyncio.</code><code class="sig-name descname">get_event_loop_policy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.get_event_loop_policy" title="永久链接至目标">¶</a></dt>
+<dd><p>获取当前事件循环策略。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="asyncio.set_event_loop_policy">
+<code class="sig-prename descclassname">asyncio.</code><code class="sig-name descname">set_event_loop_policy</code><span class="sig-paren">(</span><em class="sig-param">policy</em><span class="sig-paren">)</span><a class="headerlink" href="#asyncio.set_event_loop_policy" title="永久链接至目标">¶</a></dt>
+<dd><p>设置当前事件循环策略。 如果 <em>policy</em> 为 <code class="docutils literal notranslate"><span class="pre">None</span></code> ，就会恢复使用默认的策略。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="customizing-the-event-loop-policy">
+<h2><span class="section-number">18.5.2.7. </span>自定义事件循环策略<a class="headerlink" href="#customizing-the-event-loop-policy" title="永久链接至标题">¶</a></h2>
+<p>要实现一个新的事件循环策略，推荐你继承具体的默认事件循环策略 <code class="xref py py-class docutils literal notranslate"><span class="pre">DefaultEventLoopPolicy</span></code> 并且重写你想要改变行为的方法，例如:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyEventLoopPolicy</span><span class="p">(</span><span class="n">asyncio</span><span class="o">.</span><span class="n">DefaultEventLoopPolicy</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get_event_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the event loop.</span>
+
+<span class="sd">        This may be None or an instance of EventLoop.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">loop</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+        <span class="c1"># Do something with loop ...</span>
+        <span class="k">return</span> <span class="n">loop</span>
+
+<span class="n">asyncio</span><span class="o">.</span><span class="n">set_event_loop_policy</span><span class="p">(</span><span class="n">MyEventLoopPolicy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">18.5.2. 事件循环</a><ul>
+<li><a class="reference internal" href="#event-loop-functions">18.5.2.1. 事件循环函数</a></li>
+<li><a class="reference internal" href="#available-event-loops">18.5.2.2. 可用的事件循环</a></li>
+<li><a class="reference internal" href="#platform-support">18.5.2.3. 平台支持</a><ul>
+<li><a class="reference internal" href="#windows">18.5.2.3.1. Windows</a></li>
+<li><a class="reference internal" href="#mac-os-x">18.5.2.3.2. Mac OS X</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#event-loop-policies-and-the-default-policy">18.5.2.4. 事件循环策略和默认策略</a></li>
+<li><a class="reference internal" href="#event-loop-policy-interface">18.5.2.5. 事件循环策略接口</a></li>
+<li><a class="reference internal" href="#access-to-the-global-loop-policy">18.5.2.6. 访问全局循环策略</a></li>
+<li><a class="reference internal" href="#customizing-the-event-loop-policy">18.5.2.7. 自定义事件循环策略</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="asyncio-eventloop.html"
+                        title="上一章"><span class="section-number">18.5.1. </span>Base Event Loop</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="asyncio-task.html"
+                        title="下一章"><span class="section-number">18.5.3. </span>Tasks and coroutines</a></p>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.6/Doc/library/asyncio-eventloops.rst"
+            rel="nofollow">显示源代码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="asyncio-task.html" title="18.5.3. Tasks and coroutines"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="asyncio-eventloop.html" title="18.5.1. Base Event Loop"
+             >上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <a href="../index.html">3.6.12 Documentation</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="ipc.html" ><span class="section-number">18. </span>Interprocess Communication and Networking</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="asyncio.html" ><span class="section-number">18.5. </span><code class="xref py py-mod docutils literal notranslate"><span class="pre">asyncio</span></code> — Asynchronous I/O, event loop, coroutines and tasks</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2020, Python Software Foundation.
+    <br />
+    Python 软件基金会是一个非盈利组织。
+    <a href="https://www.python.org/psf/donations/">请捐助。</a>
+    <br />
+    最后更新于 10月 06, 2020.
+    <a href="../bugs.html">发现了问题</a>？
+    <br />
+    使用<a href="http://sphinx.pocoo.org/">Sphinx</a>2.3.1 创建。
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>切片对象 &#8212; Python 3.6.12 文档</title>
+    <link rel="stylesheet" href="../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.6.12 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="MemoryView 对象" href="memoryview.html" />
+    <link rel="prev" title="描述符对象" href="descriptor.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <link rel="canonical" href="https://docs.python.org/3/c-api/slice.html" />
+    
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    
+    
+    
+ 
+
+  </head><body>
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="memoryview.html" title="MemoryView 对象"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="descriptor.html" title="描述符对象"
+             accesskey="P">上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <a href="../index.html">3.6.12 Documentation</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concrete.html" accesskey="U">具体的对象层</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="slice-objects">
+<span id="id1"></span><h1>切片对象<a class="headerlink" href="#slice-objects" title="永久链接至标题">¶</a></h1>
+<dl class="var">
+<dt id="c.PySlice_Type">
+<a class="reference internal" href="type.html#c.PyTypeObject" title="PyTypeObject">PyTypeObject</a> <code class="sig-name descname">PySlice_Type</code><a class="headerlink" href="#c.PySlice_Type" title="永久链接至目标">¶</a></dt>
+<dd><p>切片对象的类型对象。 它与 Python 层面的 <a class="reference internal" href="../library/functions.html#slice" title="slice"><code class="xref py py-class docutils literal notranslate"><span class="pre">slice</span></code></a> 是相同的对象。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PySlice_Check">
+int <code class="sig-name descname">PySlice_Check</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *ob</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PySlice_Check" title="永久链接至目标">¶</a></dt>
+<dd><p>Return true if <em>ob</em> is a slice object; <em>ob</em> must not be <em>NULL</em>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PySlice_New">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a>* <code class="sig-name descname">PySlice_New</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *start</em>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *stop</em>, <a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *step</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PySlice_New" title="永久链接至目标">¶</a></dt>
+<dd><em class="refcount">Return value: New reference.</em><p>Return a new slice object with the given values.  The <em>start</em>, <em>stop</em>, and
+<em>step</em> parameters are used as the values of the slice object attributes of
+the same names.  Any of the values may be <em>NULL</em>, in which case the
+<code class="docutils literal notranslate"><span class="pre">None</span></code> will be used for the corresponding attribute.  Return <em>NULL</em> if
+the new object could not be allocated.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PySlice_GetIndices">
+int <code class="sig-name descname">PySlice_GetIndices</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *slice</em>, Py_ssize_t<em> length</em>, Py_ssize_t<em> *start</em>, Py_ssize_t<em> *stop</em>, Py_ssize_t<em> *step</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PySlice_GetIndices" title="永久链接至目标">¶</a></dt>
+<dd><p>从 slice 对象 <em>slice</em> 提取 start, stop 和 step 索引号，将序列长度视为 <em>length</em>。 大于 <em>length</em> 的序列号将被当作错误。</p>
+<p>成功时返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>，出错时返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code> 并且不设置异常（除非某个序列号不为 <a class="reference internal" href="../library/constants.html#None" title="None"><code class="xref py py-const docutils literal notranslate"><span class="pre">None</span></code></a> 且无法被转换为整数，在这种情况下会返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code> 并且设置一个异常）。</p>
+<p>你可能不会打算使用此函数。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2 版更改: </span>之前 <em>slice</em> 形参的形参类型是 <code class="docutils literal notranslate"><span class="pre">PySliceObject*</span></code>。</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.PySlice_GetIndicesEx">
+int <code class="sig-name descname">PySlice_GetIndicesEx</code><span class="sig-paren">(</span><a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a><em> *slice</em>, Py_ssize_t<em> length</em>, Py_ssize_t<em> *start</em>, Py_ssize_t<em> *stop</em>, Py_ssize_t<em> *step</em>, Py_ssize_t<em> *slicelength</em><span class="sig-paren">)</span><a class="headerlink" href="#c.PySlice_GetIndicesEx" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#c.PySlice_GetIndices" title="PySlice_GetIndices"><code class="xref c c-func docutils literal notranslate"><span class="pre">PySlice_GetIndices()</span></code></a> 的可用替代。 从 slice 对象 <em>slice</em> 提取 start, stop 和 step 索引号，将序列长度视为 <em>length</em>，并将切片的长度保存在 <em>slicelength</em> 中，超出范围的索引号会以与普通切片一致的方式进行剪切。</p>
+<p>成功时返回 <code class="docutils literal notranslate"><span class="pre">0</span></code>，出错时返回 <code class="docutils literal notranslate"><span class="pre">-1</span></code> 并且不设置异常。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.2 版更改: </span>之前 <em>slice</em> 形参的形参类型是 <code class="docutils literal notranslate"><span class="pre">PySliceObject*</span></code>。</p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="ellipsis-object">
+<h1>Ellipsis 对象<a class="headerlink" href="#ellipsis-object" title="永久链接至标题">¶</a></h1>
+<dl class="var">
+<dt id="c.Py_Ellipsis">
+<a class="reference internal" href="structures.html#c.PyObject" title="PyObject">PyObject</a> *<code class="sig-name descname">Py_Ellipsis</code><a class="headerlink" href="#c.Py_Ellipsis" title="永久链接至目标">¶</a></dt>
+<dd><p>Python 的 <code class="docutils literal notranslate"><span class="pre">Ellipsis</span></code> 对象。 该对象没有任何方法。 它必须以与任何其他对象一样的方式遵循引用计数。 它与 <a class="reference internal" href="none.html#c.Py_None" title="Py_None"><code class="xref c c-data docutils literal notranslate"><span class="pre">Py_None</span></code></a> 一样是单例对象。</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">目录</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">切片对象</a></li>
+<li><a class="reference internal" href="#ellipsis-object">Ellipsis 对象</a></li>
+</ul>
+
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="descriptor.html"
+                        title="上一章">描述符对象</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="memoryview.html"
+                        title="下一章">MemoryView 对象</a></p>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.6/Doc/c-api/slice.rst"
+            rel="nofollow">显示源代码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="memoryview.html" title="MemoryView 对象"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="descriptor.html" title="描述符对象"
+             >上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <a href="../index.html">3.6.12 Documentation</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python/C API 参考手册</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="concrete.html" >具体的对象层</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2020, Python Software Foundation.
+    <br />
+    Python 软件基金会是一个非盈利组织。
+    <a href="https://www.python.org/psf/donations/">请捐助。</a>
+    <br />
+    最后更新于 10月 06, 2020.
+    <a href="../bugs.html">发现了问题</a>？
+    <br />
+    使用<a href="http://sphinx.pocoo.org/">Sphinx</a>2.3.1 创建。
+    </div>
+
+  </body>
+</html>

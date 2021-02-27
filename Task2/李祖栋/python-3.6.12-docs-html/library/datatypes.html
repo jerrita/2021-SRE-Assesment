@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>8. 数据类型 &#8212; Python 3.6.12 文档</title>
+    <link rel="stylesheet" href="../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.6.12 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="8.1. datetime — 基本的日期和时间类型" href="datetime.html" />
+    <link rel="prev" title="7.2. codecs — 编解码器注册和相关基类" href="codecs.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <link rel="canonical" href="https://docs.python.org/3/library/datatypes.html" />
+    
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    
+    
+    
+ 
+
+  </head><body>
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="datetime.html" title="8.1. datetime — 基本的日期和时间类型"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="codecs.html" title="7.2. codecs — 编解码器注册和相关基类"
+             accesskey="P">上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <a href="../index.html">3.6.12 Documentation</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Python 标准库</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="data-types">
+<span id="datatypes"></span><h1><span class="section-number">8. </span>数据类型<a class="headerlink" href="#data-types" title="永久链接至标题">¶</a></h1>
+<p>The modules described in this chapter provide a variety of specialized data
+types such as dates and times, fixed-type arrays, heap queues, synchronized
+queues, and sets.</p>
+<p>Python also provides some built-in data types, in particular,
+<a class="reference internal" href="stdtypes.html#dict" title="dict"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>, <a class="reference internal" href="stdtypes.html#list" title="list"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>, <a class="reference internal" href="stdtypes.html#set" title="set"><code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code></a> and <a class="reference internal" href="stdtypes.html#frozenset" title="frozenset"><code class="xref py py-class docutils literal notranslate"><span class="pre">frozenset</span></code></a>, and
+<a class="reference internal" href="stdtypes.html#tuple" title="tuple"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>.  The <a class="reference internal" href="stdtypes.html#str" title="str"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> class is used to hold
+Unicode strings, and the <a class="reference internal" href="stdtypes.html#bytes" title="bytes"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a> class is used to hold binary data.</p>
+<p>本章包含以下模块的文档：</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="datetime.html">8.1. <code class="xref py py-mod docutils literal notranslate"><span class="pre">datetime</span></code> — 基本的日期和时间类型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="datetime.html#available-types">8.1.1. 有效的类型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datetime.html#timedelta-objects">8.1.2. <code class="xref py py-class docutils literal notranslate"><span class="pre">timedelta</span></code> 类对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datetime.html#date-objects">8.1.3. <code class="xref py py-class docutils literal notranslate"><span class="pre">date</span></code> 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datetime.html#datetime-objects">8.1.4. <code class="xref py py-class docutils literal notranslate"><span class="pre">datetime</span></code> 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datetime.html#time-objects">8.1.5. <code class="xref py py-class docutils literal notranslate"><span class="pre">time</span></code> 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datetime.html#tzinfo-objects">8.1.6. <code class="xref py py-class docutils literal notranslate"><span class="pre">tzinfo</span></code> 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datetime.html#timezone-objects">8.1.7. <code class="xref py py-class docutils literal notranslate"><span class="pre">timezone</span></code> 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="datetime.html#strftime-and-strptime-behavior">8.1.8. <code class="xref py py-meth docutils literal notranslate"><span class="pre">strftime()</span></code> 和 <code class="xref py py-meth docutils literal notranslate"><span class="pre">strptime()</span></code> 的行为</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="calendar.html">8.2. <code class="xref py py-mod docutils literal notranslate"><span class="pre">calendar</span></code> — 日历相关函数</a></li>
+<li class="toctree-l1"><a class="reference internal" href="collections.html">8.3. <code class="xref py py-mod docutils literal notranslate"><span class="pre">collections</span></code> — 容器数据类型</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="collections.html#chainmap-objects">8.3.1. <code class="xref py py-class docutils literal notranslate"><span class="pre">ChainMap</span></code> 对象</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collections.html#chainmap-examples-and-recipes">8.3.1.1. <code class="xref py py-class docutils literal notranslate"><span class="pre">ChainMap</span></code> 例子和方法</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="collections.html#counter-objects">8.3.2. <code class="xref py py-class docutils literal notranslate"><span class="pre">Counter</span></code> 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collections.html#deque-objects">8.3.3. <code class="xref py py-class docutils literal notranslate"><span class="pre">deque</span></code> 对象</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collections.html#deque-recipes">8.3.3.1. <code class="xref py py-class docutils literal notranslate"><span class="pre">deque</span></code> 用法</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="collections.html#defaultdict-objects">8.3.4. <code class="xref py py-class docutils literal notranslate"><span class="pre">defaultdict</span></code> 对象</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collections.html#defaultdict-examples">8.3.4.1. <code class="xref py py-class docutils literal notranslate"><span class="pre">defaultdict</span></code> 例子</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="collections.html#namedtuple-factory-function-for-tuples-with-named-fields">8.3.5. <code class="xref py py-func docutils literal notranslate"><span class="pre">namedtuple()</span></code> 命名元组的工厂函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collections.html#ordereddict-objects">8.3.6. <code class="xref py py-class docutils literal notranslate"><span class="pre">OrderedDict</span></code> 对象</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="collections.html#ordereddict-examples-and-recipes">8.3.6.1. <code class="xref py py-class docutils literal notranslate"><span class="pre">OrderedDict</span></code> 例子和用法</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="collections.html#userdict-objects">8.3.7. <code class="xref py py-class docutils literal notranslate"><span class="pre">UserDict</span></code> 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collections.html#userlist-objects">8.3.8. <code class="xref py py-class docutils literal notranslate"><span class="pre">UserList</span></code> 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="collections.html#userstring-objects">8.3.9. <code class="xref py py-class docutils literal notranslate"><span class="pre">UserString</span></code> 对象</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="collections.abc.html">8.4. <code class="xref py py-mod docutils literal notranslate"><span class="pre">collections.abc</span></code> — 容器的抽象基类</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="collections.abc.html#collections-abstract-base-classes">8.4.1. 容器抽象基类</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="heapq.html">8.5. <code class="xref py py-mod docutils literal notranslate"><span class="pre">heapq</span></code> — 堆队列算法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="heapq.html#basic-examples">8.5.1. 基本示例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="heapq.html#priority-queue-implementation-notes">8.5.2. 优先队列实现说明</a></li>
+<li class="toctree-l2"><a class="reference internal" href="heapq.html#theory">8.5.3. 理论</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="bisect.html">8.6. <code class="xref py py-mod docutils literal notranslate"><span class="pre">bisect</span></code> — 数组二分查找算法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="bisect.html#searching-sorted-lists">8.6.1. 搜索有序列表</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bisect.html#other-examples">8.6.2. 其他示例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="array.html">8.7. <code class="xref py py-mod docutils literal notranslate"><span class="pre">array</span></code> — 高效的数值数组</a></li>
+<li class="toctree-l1"><a class="reference internal" href="weakref.html">8.8. <code class="xref py py-mod docutils literal notranslate"><span class="pre">weakref</span></code> — 弱引用</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="weakref.html#weak-reference-objects">8.8.1. 弱引用对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="weakref.html#example">8.8.2. 示例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="weakref.html#finalizer-objects">8.8.3. 终结器对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="weakref.html#comparing-finalizers-with-del-methods">8.8.4. 比较终结器与 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__del__()</span></code> 方法</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="types.html">8.9. <code class="xref py py-mod docutils literal notranslate"><span class="pre">types</span></code> — 动态类型创建和内置类型名称</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="types.html#dynamic-type-creation">8.9.1. 动态类型创建</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#standard-interpreter-types">8.9.2. 标准解释器类型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#additional-utility-classes-and-functions">8.9.3. 附加工具类和函数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#coroutine-utility-functions">8.9.4. 协程工具函数</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="copy.html">8.10. <code class="xref py py-mod docutils literal notranslate"><span class="pre">copy</span></code> — 浅层 (shallow) 和深层 (deep) 复制操作</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pprint.html">8.11. <code class="xref py py-mod docutils literal notranslate"><span class="pre">pprint</span></code> — 数据美化输出</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pprint.html#prettyprinter-objects">8.11.1. PrettyPrinter 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pprint.html#example">8.11.2. 示例</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reprlib.html">8.12. <code class="xref py py-mod docutils literal notranslate"><span class="pre">reprlib</span></code> — 另一种 <code class="xref py py-func docutils literal notranslate"><span class="pre">repr()</span></code> 实现</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="reprlib.html#repr-objects">8.12.1. Repr 对象</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reprlib.html#subclassing-repr-objects">8.12.2. 子类化 Repr 对象</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="enum.html">8.13. <code class="xref py py-mod docutils literal notranslate"><span class="pre">enum</span></code> — 枚举类型支持</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="enum.html#module-contents">8.13.1. 模块内容</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html#creating-an-enum">8.13.2. 创建一个 Enum</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html#programmatic-access-to-enumeration-members-and-their-attributes">8.13.3. 对枚举成员及其属性的程序化访问</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html#duplicating-enum-members-and-values">8.13.4. 复制枚举成员和值</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html#ensuring-unique-enumeration-values">8.13.5. 确保唯一的枚举值</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html#using-automatic-values">8.13.6. 使用自动设定的值</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html#iteration">8.13.7. 迭代</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html#comparisons">8.13.8. 比较运算</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html#allowed-members-and-attributes-of-enumerations">8.13.9. 允许的枚举成员和属性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html#restricted-subclassing-of-enumerations">8.13.10. Restricted subclassing of enumerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html#pickling">8.13.11. 封存</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html#functional-api">8.13.12. 可用 API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html#derived-enumerations">8.13.13. 派生的枚举</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="enum.html#intenum">8.13.13.1. IntEnum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enum.html#intflag">8.13.13.2. IntFlag</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enum.html#flag">8.13.13.3. 标志</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enum.html#others">8.13.13.4. 其他事项</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html#interesting-examples">8.13.14. 有趣的示例</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="enum.html#omitting-values">8.13.14.1. 省略值</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="enum.html#using-auto">8.13.14.1.1. 使用 <code class="xref py py-class docutils literal notranslate"><span class="pre">auto</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum.html#using-object">8.13.14.1.2. 使用 <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum.html#using-a-descriptive-string">8.13.14.1.3. 使用描述性字符串</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum.html#using-a-custom-new">8.13.14.1.4. 使用自定义的 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__new__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="enum.html#orderedenum">8.13.14.2. OrderedEnum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enum.html#duplicatefreeenum">8.13.14.3. DuplicateFreeEnum</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enum.html#planet">8.13.14.4. Planet</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="enum.html#how-are-enums-different">8.13.15. 各种枚举有何区别？</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="enum.html#enum-classes">8.13.15.1. 枚举类</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enum.html#enum-members-aka-instances">8.13.15.2. 枚举成员（即实例）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="enum.html#finer-points">8.13.15.3. 细节要点</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="enum.html#supported-dunder-names">8.13.15.3.1. 支持 <code class="docutils literal notranslate"><span class="pre">__dunder__</span></code> 名称</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum.html#supported-sunder-names">8.13.15.3.2. 支持的 <code class="docutils literal notranslate"><span class="pre">_sunder_</span></code> 名称</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum.html#enum-member-type">8.13.15.3.3. <code class="docutils literal notranslate"><span class="pre">Enum</span></code> 成员类型</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum.html#boolean-value-of-enum-classes-and-members">8.13.15.3.4. <code class="docutils literal notranslate"><span class="pre">Enum</span></code> 类和成员的布尔值</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum.html#enum-classes-with-methods">8.13.15.3.5. 带有方法的 <code class="docutils literal notranslate"><span class="pre">Enum</span></code> 类</a></li>
+<li class="toctree-l4"><a class="reference internal" href="enum.html#combining-members-of-flag">8.13.15.3.6. 组合 <code class="docutils literal notranslate"><span class="pre">Flag</span></code> 的成员</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="codecs.html"
+                        title="上一章"><span class="section-number">7.2. </span><code class="xref py py-mod docutils literal notranslate"><span class="pre">codecs</span></code> — 编解码器注册和相关基类</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="datetime.html"
+                        title="下一章"><span class="section-number">8.1. </span><code class="xref py py-mod docutils literal notranslate"><span class="pre">datetime</span></code> — 基本的日期和时间类型</a></p>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.6/Doc/library/datatypes.rst"
+            rel="nofollow">显示源代码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="datetime.html" title="8.1. datetime — 基本的日期和时间类型"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="codecs.html" title="7.2. codecs — 编解码器注册和相关基类"
+             >上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <a href="../index.html">3.6.12 Documentation</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2020, Python Software Foundation.
+    <br />
+    Python 软件基金会是一个非盈利组织。
+    <a href="https://www.python.org/psf/donations/">请捐助。</a>
+    <br />
+    最后更新于 10月 06, 2020.
+    <a href="../bugs.html">发现了问题</a>？
+    <br />
+    使用<a href="http://sphinx.pocoo.org/">Sphinx</a>2.3.1 创建。
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,708 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>19.1.1. email.message: 表示一封电子邮件信息 &#8212; Python 3.6.12 文档</title>
+    <link rel="stylesheet" href="../_static/pydoctheme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../_static/sidebar.js"></script>
+    
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="在 Python 3.6.12 文档 中搜索"
+          href="../_static/opensearch.xml"/>
+    <link rel="author" title="关于这些文档" href="../about.html" />
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="copyright" title="版权所有" href="../copyright.html" />
+    <link rel="next" title="19.1.2. email.parser: 解析电子邮件信息" href="email.parser.html" />
+    <link rel="prev" title="19.1. email — 电子邮件与 MIME 处理包" href="email.html" />
+    <link rel="shortcut icon" type="image/png" href="../_static/py.png" />
+    <link rel="canonical" href="https://docs.python.org/3/library/email.message.html" />
+    
+    <script type="text/javascript" src="../_static/copybutton.js"></script>
+    
+    
+    
+ 
+
+  </head><body>
+  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             accesskey="I">索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="email.parser.html" title="19.1.2. email.parser: 解析电子邮件信息"
+             accesskey="N">下一页</a> |</li>
+        <li class="right" >
+          <a href="email.html" title="19.1. email — 电子邮件与 MIME 处理包"
+             accesskey="P">上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <a href="../index.html">3.6.12 Documentation</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="netdata.html" ><span class="section-number">19. </span>互联网数据处理</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="email.html" accesskey="U"><span class="section-number">19.1. </span><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code> — 电子邮件与 MIME 处理包</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>    
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-email.message">
+<span id="email-message-representing-an-email-message"></span><h1><span class="section-number">19.1.1. </span><a class="reference internal" href="#module-email.message" title="email.message: The base class representing email messages."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.message</span></code></a>: 表示一封电子邮件信息<a class="headerlink" href="#module-email.message" title="永久链接至标题">¶</a></h1>
+<p><strong>源代码:</strong> <a class="reference external" href="https://github.com/python/cpython/tree/3.6/Lib/email/message.py">Lib/email/message.py</a></p>
+<hr class="docutils" />
+<div class="versionadded">
+<p><span class="versionmodified added">3.6 新版功能: </span><a class="footnote-reference brackets" href="#id2" id="id1">1</a></p>
+</div>
+<p>位于 <a class="reference internal" href="email.html#module-email" title="email: Package supporting the parsing, manipulating, and generating email messages."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code></a> 包的中心的类就是 <a class="reference internal" href="#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> 类。这个类导入自 <a class="reference internal" href="#module-email.message" title="email.message: The base class representing email messages."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.message</span></code></a> 模块。它是 <a class="reference internal" href="email.html#module-email" title="email: Package supporting the parsing, manipulating, and generating email messages."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code></a> 对象模型的基类。<a class="reference internal" href="#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> 为设置和查询头字段内容、访问信息体的内容、以及创建和修改结构化信息提供了核心功能。</p>
+<p>一份电子邮件信息由*头*和*负载*（又被称为*内容*）组成。头遵循 <span class="target" id="index-21"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc5322.html"><strong>RFC 5322</strong></a> 或者 <span class="target" id="index-22"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc6532.html"><strong>RFC 6532</strong></a> 风格的字段名和值，字段名和字段值之间由一个冒号隔开。这个冒号既不属于字段名，也不属于字段值。信息的负载可能是一段简单的文字消息，也可能是一个二进制的对象，更可能是由多个拥有各自头和负载的子信息组成的结构化子信息序列。对于后者类型的负载，信息的 MIME 类型将会被指明为诸如 <em class="mimetype">multipart/*</em> 或 <em class="mimetype">message/rfc822</em> 的类型。</p>
+<p><a class="reference internal" href="#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> 对象所提供的抽象概念模型是一个头字段组成的有序字典加一个代表 <span class="target" id="index-23"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc5322.html"><strong>RFC 5322</strong></a> 标准的信息体的*负载*。负载有可能是一系列子``EmailMessage``对象的列表。你除了可以通过一般的字典方法来访问头字段名和值，还可以使用特制方法来访问头的特定字段（比如说 MIME 内容类型字段）、操纵负载、生成信息的序列化版本、递归遍历对象树。</p>
+<p><a class="reference internal" href="#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> 的类字典接口的字典索引是头字段名，头字段名必须是ASCII值。字典值是带有一些附加方法的字符串。虽然头字段的存储和获取都是保留其原始大小写的，但是字段名的匹配是大小写不敏感的。与真正的字典不同，键与键之间不但存在顺序关系，还可以重复。我们提供了额外的方法来处理含有重复键的头。</p>
+<p><em>payload</em> 是多样的。 对于简单的消息对象，它是字符串或字节串对象；对于诸如 <em class="mimetype">multipart/*</em> 和 <em class="mimetype">message/rfc822</em> 消息对象的 MIME 容器文档，它是一个 <a class="reference internal" href="#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> 对象列表。</p>
+<dl class="class">
+<dt id="email.message.EmailMessage">
+<em class="property">class </em><code class="sig-prename descclassname">email.message.</code><code class="sig-name descname">EmailMessage</code><span class="sig-paren">(</span><em class="sig-param">policy=default</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage" title="永久链接至目标">¶</a></dt>
+<dd><p>如果指定了*policy*，消息将由这个*policy*所指定的规则来更新和序列化信息的表达。如果没有指定*policy*，其将默认使用 <a class="reference internal" href="email.policy.html#email.policy.default" title="email.policy.default"><code class="xref py py-class docutils literal notranslate"><span class="pre">default</span></code></a> 策略。这个策略遵循电子邮件的RFC标准，除了行终止符号（RFC要求使用``rn``，此策略使用Python标准的``n``行终止符）。请前往 <a class="reference internal" href="email.policy.html#module-email.policy" title="email.policy: Controlling the parsing and generating of messages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">policy</span></code></a> 的文档获取更多信息。</p>
+<dl class="method">
+<dt id="email.message.EmailMessage.as_string">
+<code class="sig-name descname">as_string</code><span class="sig-paren">(</span><em class="sig-param">unixfrom=False</em>, <em class="sig-param">maxheaderlen=None</em>, <em class="sig-param">policy=None</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.as_string" title="永久链接至目标">¶</a></dt>
+<dd><p>以一段字符串的形式返回整个消息对象。 若可选的 <em>unixform</em> 参数为真，返回的字符串会包含信封头。 <em>unixform</em> 的默认值是 <code class="docutils literal notranslate"><span class="pre">False</span></code>。 为了保持与基类 <a class="reference internal" href="email.compat32-message.html#email.message.Message" title="email.message.Message"><code class="xref py py-class docutils literal notranslate"><span class="pre">Message</span></code></a> 的兼容性，<em>maxheaderlen</em> 是被接受的，但是其默认值是 <code class="docutils literal notranslate"><span class="pre">None</span></code>。 这个默认值表示行长度由策略的 <code class="xref py py-attr docutils literal notranslate"><span class="pre">max_line_length</span></code> 属性所控制。从信息实例所获取到的策略可以通过 <em>policy</em> 参数重写。 这样可以对该方法所产生的输出进行略微的控制，因为指定的 <em>policy</em> 会被传递到 <a class="reference internal" href="email.generator.html#email.generator.Generator" title="email.generator.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a> 当中。</p>
+<p>扁平化信息可能会对 <a class="reference internal" href="#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> 做出修改。这是因为为了完成向字符串的转换，一些内容需要使用默认值填入（举个例子，MIME 边界字段可能会被生成或被修改）。</p>
+<p>请注意，这个方法是为了便利而提供，不一定是适合你的应用程序的最理想的序列化信息的方法。这在你处理多封信息的时候尤甚。如果你需要使用更加灵活的API来序列化信息，请参见 <a class="reference internal" href="email.generator.html#email.generator.Generator" title="email.generator.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">email.generator.Generator</span></code></a> 。同时请注意，当 <a class="reference internal" href="email.policy.html#email.policy.EmailPolicy.utf8" title="email.policy.EmailPolicy.utf8"><code class="xref py py-attr docutils literal notranslate"><span class="pre">utf8</span></code></a> 属性为``False``的时候（这是默认值），本方法将限制其行为为生成以“7 bit clean”方式序列化的信息。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.6 版更改: </span><em>maxheaderlen*没有被指定时的默认行为从默认为0修改为默认为策略的*max_line_length</em>。</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.__str__">
+<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.__str__" title="永久链接至目标">¶</a></dt>
+<dd><p>与``as_string(policy=self.policy.clone(utf8=True))``等价。这将让``str(msg)``产生的字符串包含人类可读的的序列化信息内容。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>本方法开始使用``utf8=True``，而非 <a class="reference internal" href="#email.message.EmailMessage.as_string" title="email.message.EmailMessage.as_string"><code class="xref py py-meth docutils literal notranslate"><span class="pre">as_string()</span></code></a> 的直接替身。使用``utf8=True``会产生类似于 <span class="target" id="index-24"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc6531.html"><strong>RFC 6531</strong></a> 的信息表达。</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.as_bytes">
+<code class="sig-name descname">as_bytes</code><span class="sig-paren">(</span><em class="sig-param">unixfrom=False</em>, <em class="sig-param">policy=None</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.as_bytes" title="永久链接至目标">¶</a></dt>
+<dd><p>以字节串对象的形式返回整个扁平化后的消息。 当可选的 <em>unixfrom</em> 为真值时，返回的字符串会包含信封标头。 <em>unixfrom</em> 的默认值为 <code class="docutils literal notranslate"><span class="pre">False</span></code>。 <em>policy</em> 参数可被用于重载从消息实例获取的默认 policy。 这可被用来控制该方法所产生的部分格式效果，因为指定的 <em>policy</em> 将被传递给 <a class="reference internal" href="email.generator.html#email.generator.BytesGenerator" title="email.generator.BytesGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">BytesGenerator</span></code></a>。</p>
+<p>扁平化信息可能会对 <a class="reference internal" href="#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> 做出修改。这是因为为了完成向字符串的转换，一些内容需要使用默认值填入（举个例子，MIME 边界字段可能会被生成或被修改）。</p>
+<p>请注意，这个方法是为了便利而提供，不一定是适合你的应用程序的最理想的序列化信息的方法。这在你处理多封信息的时候尤甚。如果你需要使用更加灵活的API来序列化信息，请参见 <a class="reference internal" href="email.generator.html#email.generator.BytesGenerator" title="email.generator.BytesGenerator"><code class="xref py py-class docutils literal notranslate"><span class="pre">email.generator.BytesGenerator</span></code></a> 。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.__bytes__">
+<code class="sig-name descname">__bytes__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.__bytes__" title="永久链接至目标">¶</a></dt>
+<dd><p>与 <a class="reference internal" href="#email.message.EmailMessage.as_bytes" title="email.message.EmailMessage.as_bytes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">as_bytes()</span></code></a> 等价。这将让``bytes(msg)``产生一个包含序列化信息内容的字节序列对象。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.is_multipart">
+<code class="sig-name descname">is_multipart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.is_multipart" title="永久链接至目标">¶</a></dt>
+<dd><p>如果该信息的负载是一个子 <a class="reference internal" href="#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> 对象列表，返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> ；否则返回 <code class="docutils literal notranslate"><span class="pre">False</span></code> 。在 <a class="reference internal" href="#email.message.EmailMessage.is_multipart" title="email.message.EmailMessage.is_multipart"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_multipart()</span></code></a> 返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> 的场合下，负载应当是一个字符串对象（有可能是一个使用了内容传输编码进行编码的二进制负载）。请注意， <a class="reference internal" href="#email.message.EmailMessage.is_multipart" title="email.message.EmailMessage.is_multipart"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_multipart()</span></code></a> 返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> 不意味着 <code class="docutils literal notranslate"><span class="pre">msg.get_content_maintype()</span> <span class="pre">==</span> <span class="pre">'multipart'</span></code> 也会返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> 。举个例子， <code class="docutils literal notranslate"><span class="pre">is_multipart</span></code> 在 <a class="reference internal" href="#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> 是 <code class="docutils literal notranslate"><span class="pre">message/rfc822</span></code> 类型的信息的情况下，其返回值也是 <code class="docutils literal notranslate"><span class="pre">True</span></code> 。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.set_unixfrom">
+<code class="sig-name descname">set_unixfrom</code><span class="sig-paren">(</span><em class="sig-param">unixfrom</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.set_unixfrom" title="永久链接至目标">¶</a></dt>
+<dd><p>将信息的信封头设置为 <em>unixform</em> ，这应当是一个字符串。（在  <a class="reference internal" href="mailbox.html#mailbox.mboxMessage" title="mailbox.mboxMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">mboxMessage</span></code></a> 中有关于这个头的一段简短介绍。）</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.get_unixfrom">
+<code class="sig-name descname">get_unixfrom</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.get_unixfrom" title="永久链接至目标">¶</a></dt>
+<dd><p>返回消息的信封头。如果信封头从未被设置过，默认返回 <code class="docutils literal notranslate"><span class="pre">None</span></code> 。</p>
+</dd></dl>
+
+<p>以下方法实现了对信息的头字段进行访问的类映射接口。请留意，只是类映射接口，这与平常的映射接口（比如说字典映射）有一些语义上的不同。举个例子，在一个字典当中，键之间不可重复，但是信息头字段是可以重复的。不光如此，在字典当中调用 <a class="reference internal" href="#email.message.EmailMessage.keys" title="email.message.EmailMessage.keys"><code class="xref py py-meth docutils literal notranslate"><span class="pre">keys()</span></code></a> 方法返回的结果，其顺序没有保证；但是在一个 <a class="reference internal" href="#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> 对象当中，返回的头字段永远以其在原信息当中出现的顺序，或以其加入信息的顺序为序。任何删了后又重新加回去的头字段总是添加在当时列表的末尾。</p>
+<p>这些语义上的不同是刻意而为之的，是出于在绝大多数常见使用情景中都方便的初衷下设计的。</p>
+<p>还请留意，无论在什么情况下，消息当中的任何信封头字段都不会包含在映射接口当中。</p>
+<dl class="method">
+<dt id="email.message.EmailMessage.__len__">
+<code class="sig-name descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.__len__" title="永久链接至目标">¶</a></dt>
+<dd><p>返回头字段的总数，重复的也计算在内。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.__contains__">
+<code class="sig-name descname">__contains__</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.__contains__" title="永久链接至目标">¶</a></dt>
+<dd><p>Return true if the message object has a field named <em>name</em>. Matching is
+done without regard to case and <em>name</em> does not include the trailing
+colon.  Used for the <code class="docutils literal notranslate"><span class="pre">in</span></code> operator.  For example:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="s1">&#39;message-id&#39;</span> <span class="ow">in</span> <span class="n">myMessage</span><span class="p">:</span>
+   <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Message-ID:&#39;</span><span class="p">,</span> <span class="n">myMessage</span><span class="p">[</span><span class="s1">&#39;message-id&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.__getitem__">
+<code class="sig-name descname">__getitem__</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.__getitem__" title="永久链接至目标">¶</a></dt>
+<dd><p>返回头字段名对应的字段值。 <em>name</em> 不含冒号分隔符。如果字段未找到，返回 <code class="docutils literal notranslate"><span class="pre">None</span></code> 。 <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> 异常永不抛出。</p>
+<p>请注意，如果对应名字的字段找到了多个，具体返回哪个字段值是未定义的。请使用 <a class="reference internal" href="#email.message.EmailMessage.get_all" title="email.message.EmailMessage.get_all"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_all()</span></code></a> 方法获取匹配字段名的所有字段值。</p>
+<p>使用标准策略（非 <code class="docutils literal notranslate"><span class="pre">compat32</span></code>）时，返回值是 <a class="reference internal" href="email.headerregistry.html#email.headerregistry.BaseHeader" title="email.headerregistry.BaseHeader"><code class="xref py py-class docutils literal notranslate"><span class="pre">email.headerregistry.BaseHeader</span></code></a> 的某个子类的一个实例。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.__setitem__">
+<code class="sig-name descname">__setitem__</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">val</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.__setitem__" title="永久链接至目标">¶</a></dt>
+<dd><p>在信息头中添加名为 <em>name</em> 值为 <em>val</em> 的字段。这个字段会被添加在已有字段列表的结尾处。</p>
+<p>请注意，这个方法 <em>既不会</em> 覆盖 <em>也不会</em> 删除任何字段名重名的已有字段。如果你确实想保证新字段是整个信息头当中唯一拥有 <em>name</em> 字段名的字段，你需要先把旧字段删除。例如：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="k">del</span> <span class="n">msg</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">]</span>
+<span class="n">msg</span><span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Python roolz!&#39;</span>
+</pre></div>
+</div>
+<p>如果 <code class="xref py py-mod docutils literal notranslate"><span class="pre">policy</span></code> 明确要求某些字段是唯一的（至少标准策略就有这么做），对这些字段在已有同名字段的情况下仍然尝试为字段名赋值会引发 <a class="reference internal" href="exceptions.html#ValueError" title="ValueError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> 异常。这是为了一致性而刻意设计出的行为，不过我们随时可能会突然觉得“还是在这种情况下自动把旧字段删除比较好吧”而把这个行为改掉，所以不要以为这是特性而依赖这个行为。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.__delitem__">
+<code class="sig-name descname">__delitem__</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.__delitem__" title="永久链接至目标">¶</a></dt>
+<dd><p>删除信息头当中字段名匹配 <em>name</em> 的所有字段。如果匹配指定名称的字段没有找到，也不会抛出任何异常。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.keys">
+<code class="sig-name descname">keys</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.keys" title="永久链接至目标">¶</a></dt>
+<dd><p>以列表形式返回消息头中所有的字段名。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.values">
+<code class="sig-name descname">values</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.values" title="永久链接至目标">¶</a></dt>
+<dd><p>以列表形式返回消息头中所有的字段值。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.items">
+<code class="sig-name descname">items</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.items" title="永久链接至目标">¶</a></dt>
+<dd><p>以二元元组的列表形式返回消息头中所有的字段名和字段值。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">failobj=None</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.get" title="永久链接至目标">¶</a></dt>
+<dd><p>返回对应字段名的字段值。这个方法与 <a class="reference internal" href="#email.message.EmailMessage.__getitem__" title="email.message.EmailMessage.__getitem__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code></a> 是一样的，只不过如果对应字段名的字段没有找到，该方法会返回 <em>failobj</em> 。这个参数是可选的（默认值为 <code class="docutils literal notranslate"><span class="pre">None</span></code> ）。</p>
+</dd></dl>
+
+<p>以下是一些与头有关的更多有用方法：</p>
+<dl class="method">
+<dt id="email.message.EmailMessage.get_all">
+<code class="sig-name descname">get_all</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">failobj=None</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.get_all" title="永久链接至目标">¶</a></dt>
+<dd><p>返回字段名为 <em>name</em> 的所有字段值的列表。如果信息内不存在匹配的字段，返回 <em>failobj</em> （其默认值为 <code class="docutils literal notranslate"><span class="pre">None</span></code> ）。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.add_header">
+<code class="sig-name descname">add_header</code><span class="sig-paren">(</span><em class="sig-param">_name</em>, <em class="sig-param">_value</em>, <em class="sig-param">**_params</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.add_header" title="永久链接至目标">¶</a></dt>
+<dd><p>高级头字段设定。这个方法与 <a class="reference internal" href="#email.message.EmailMessage.__setitem__" title="email.message.EmailMessage.__setitem__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">__setitem__()</span></code></a> 类似，不过你可以使用关键字参数为字段提供附加参数。 <em>_name</em> 是字段名， <em>_value</em> 是字段 <em>主</em> 值。</p>
+<p>对于关键字参数字典 <em>_params</em> 的每个键值对而言，它的键被用作参数的名字，其中下划线被替换为短横杠（毕竟短横杠不是合法的Python标识符）。一般来讲，参数以 <code class="docutils literal notranslate"><span class="pre">键=&quot;值&quot;</span></code> 的方式添加，除非值是 <code class="docutils literal notranslate"><span class="pre">None</span></code> 。要真的是这样的话，只有键会被添加。</p>
+<p>如果值含有非ASCII字符，你可以将值写成 <code class="docutils literal notranslate"><span class="pre">(CHARSET,</span> <span class="pre">LANGUAGE,</span> <span class="pre">VALUE)</span></code> 形式的三元组，这样你可以人为控制字符的字符集和语言。 <code class="docutils literal notranslate"><span class="pre">CHARSET</span></code> 是一个字符串，它为你的值的编码命名； <code class="docutils literal notranslate"><span class="pre">LANGUAGE</span></code> 一般可以直接设为 <code class="docutils literal notranslate"><span class="pre">None</span></code> ，也可以直接设为空字符串（其他可能取值参见 :rfc`2231` ）； <code class="docutils literal notranslate"><span class="pre">`VALUE</span></code> 是一个字符串值，其包含非ASCII的码点。如果你没有使用三元组，你的字符串又含有非ASCII字符，那么它就会使用 <span class="target" id="index-25"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc2231.html"><strong>RFC 2231</strong></a> 中， <code class="docutils literal notranslate"><span class="pre">CHARSET</span></code> 为 <code class="docutils literal notranslate"><span class="pre">utf-8</span></code> ， <code class="docutils literal notranslate"><span class="pre">LANGUAGE</span></code> 为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 的格式编码。</p>
+<p>例如：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s1">&#39;Content-Disposition&#39;</span><span class="p">,</span> <span class="s1">&#39;attachment&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;bud.gif&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>会添加一个形如下文的头字段：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">Content</span><span class="o">-</span><span class="n">Disposition</span><span class="p">:</span> <span class="n">attachment</span><span class="p">;</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;bud.gif&quot;</span>
+</pre></div>
+</div>
+<p>带有非ASCII字符的拓展接口：</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span><span class="o">.</span><span class="n">add_header</span><span class="p">(</span><span class="s1">&#39;Content-Disposition&#39;</span><span class="p">,</span> <span class="s1">&#39;attachment&#39;</span><span class="p">,</span>
+               <span class="n">filename</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;iso-8859-1&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;Fußballer.ppt&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.replace_header">
+<code class="sig-name descname">replace_header</code><span class="sig-paren">(</span><em class="sig-param">_name</em>, <em class="sig-param">_value</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.replace_header" title="永久链接至目标">¶</a></dt>
+<dd><p>替换头字段。只会替换掉信息内找到的第一个字段名匹配 <em>_name</em> 的字段值。字段的顺序不变，原字段名的大小写也不变。如果没有找到匹配的字段，抛出 <a class="reference internal" href="exceptions.html#KeyError" title="KeyError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">KeyError</span></code></a> 异常。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.get_content_type">
+<code class="sig-name descname">get_content_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.get_content_type" title="永久链接至目标">¶</a></dt>
+<dd><p>返回信息的内容类型，其形如 <em class="mimetype">maintype/subtype</em> ，强制全小写。如果信息的 <em class="mailheader">Content-Type</em> 头字段不存在则返回 <a class="reference internal" href="#email.message.EmailMessage.get_default_type" title="email.message.EmailMessage.get_default_type"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_default_type()</span></code></a> 的返回值；如果信息的 <em class="mailheader">Content-Type</em> 头字段无效则返回 <code class="docutils literal notranslate"><span class="pre">text/plain</span></code> 。</p>
+<p>（根据 <span class="target" id="index-26"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc2045.html"><strong>RFC 2045</strong></a> 所述，信息永远都有一个默认类型，所以 <a class="reference internal" href="#email.message.EmailMessage.get_content_type" title="email.message.EmailMessage.get_content_type"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_content_type()</span></code></a> 一定会返回一个值。 <span class="target" id="index-27"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc2045.html"><strong>RFC 2045</strong></a> 定义信息的默认类型为 <em class="mimetype">text/plain</em> 或 <em class="mimetype">message/rfc822</em> ，其中后者仅出现在消息头位于一个 <em class="mimetype">multipart/digest</em> 容器中的场合中。如果消息头的 <em class="mailheader">Content-Type</em> 字段所指定的类型是无效的， <span class="target" id="index-28"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc2045.html"><strong>RFC 2045</strong></a> 令其默认类型为 <em class="mimetype">text/plain</em> 。）</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.get_content_maintype">
+<code class="sig-name descname">get_content_maintype</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.get_content_maintype" title="永久链接至目标">¶</a></dt>
+<dd><p>返回信息的主要内容类型。准确来说，此方法返回的是 <a class="reference internal" href="#email.message.EmailMessage.get_content_type" title="email.message.EmailMessage.get_content_type"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_content_type()</span></code></a> 方法所返回的形如 <em class="mimetype">maintype/subtype</em> 的字符串当中的 <em class="mimetype">maintype</em> 部分。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.get_content_subtype">
+<code class="sig-name descname">get_content_subtype</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.get_content_subtype" title="永久链接至目标">¶</a></dt>
+<dd><p>返回信息的子内容类型。准确来说，此方法返回的是 <a class="reference internal" href="#email.message.EmailMessage.get_content_type" title="email.message.EmailMessage.get_content_type"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_content_type()</span></code></a> 方法所返回的形如 <em class="mimetype">maintype/subtype</em> 的字符串当中的 <em class="mimetype">subtype</em> 部分。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.get_default_type">
+<code class="sig-name descname">get_default_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.get_default_type" title="永久链接至目标">¶</a></dt>
+<dd><p>返回默认的内容类型。绝大多数的信息，其默认内容类型都是 <em class="mimetype">text/plain</em> 。作为 <em class="mimetype">multipart/digest</em> 容器内子部分的信息除外，它们的默认内容类型是 <em class="mimetype">message/rfc822</em> 。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.set_default_type">
+<code class="sig-name descname">set_default_type</code><span class="sig-paren">(</span><em class="sig-param">ctype</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.set_default_type" title="永久链接至目标">¶</a></dt>
+<dd><p>设置默认的内容类型。 尽管并非强制，但是 <em>ctype</em> 仍应当是 <em class="mimetype">text/plain</em> 或 <em class="mimetype">message/rfc822</em> 二者取一。默认内容类型并不存储在 <em class="mailheader">Content-Type</em> 头字段当中，所以设置此项的唯一作用就是决定当 <em class="mailheader">Content-Type</em> 头字段在信息中不存在时，<code class="docutils literal notranslate"><span class="pre">get_content_type</span></code> 方法的返回值。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.set_param">
+<code class="sig-name descname">set_param</code><span class="sig-paren">(</span><em class="sig-param">param</em>, <em class="sig-param">value</em>, <em class="sig-param">header='Content-Type'</em>, <em class="sig-param">requote=True</em>, <em class="sig-param">charset=None</em>, <em class="sig-param">language=''</em>, <em class="sig-param">replace=False</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.set_param" title="永久链接至目标">¶</a></dt>
+<dd><p>在 <em class="mailheader">Content-Type</em> 头字段当中设置一个参数。如果该参数已于字段中存在，将其旧值替换为 <em>value</em> 。如果 <em>header</em> 是 <code class="docutils literal notranslate"><span class="pre">Content-Type</span></code> （默认值），并且该头字段于信息中尚未存在，则会先添加该字段，将其值设置为 <em class="mimetype">text/plain</em> ，并附加参数值。可选的 <em>header</em> 可以让你指定 <em class="mailheader">Content-Type</em> 之外的另一个头字段。</p>
+<p>如果值包含非ASCII字符，其字符集和语言可以通过可选参数 <em>charset</em> 和 <em>language</em> 显式指定。可选参数 <em>language</em> 指定 <span class="target" id="index-29"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc2231.html"><strong>RFC 2231</strong></a> 当中的语言，其默认值是空字符串。 <em>charset</em> 和 <em>language</em> 都应当字符串。默认使用的是 <code class="docutils literal notranslate"><span class="pre">utf8</span></code> <em>charset</em> ，<em>language</em> 为 <code class="docutils literal notranslate"><span class="pre">None</span></code> 。</p>
+<p>如果 <em>replace</em> 为 <code class="docutils literal notranslate"><span class="pre">False</span></code> （默认值），该头字段会被移动到所有头字段的末尾。如果 <em>replace</em> 为 <code class="docutils literal notranslate"><span class="pre">True</span></code> ，字段会被原地更新。</p>
+<p>于 <a class="reference internal" href="#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> 对象而言， <em>requote</em> 参数已被弃用。</p>
+<p>请注意，头字段已有的参数值可以通过头字段的 <code class="xref py py-attr docutils literal notranslate"><span class="pre">params</span></code> 属性来访问（举例： <code class="docutils literal notranslate"><span class="pre">msg['Content-Type'].params['charset']</span></code> ）。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4 版更改: </span>添加了 <code class="docutils literal notranslate"><span class="pre">replace</span></code> 关键字。</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.del_param">
+<code class="sig-name descname">del_param</code><span class="sig-paren">(</span><em class="sig-param">param</em>, <em class="sig-param">header='content-type'</em>, <em class="sig-param">requote=True</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.del_param" title="永久链接至目标">¶</a></dt>
+<dd><p>从 <em class="mailheader">Content-Type</em> 头字段中完全移去给定的参数。头字段会被原地重写，重写后的字段不含参数和值。可选的 <em>header</em> 可以让你指定 <em class="mailheader">Content-Type</em> 之外的另一个字段。</p>
+<p>于 <a class="reference internal" href="#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> 对象而言， <em>requote</em> 参数已被弃用。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.get_filename">
+<code class="sig-name descname">get_filename</code><span class="sig-paren">(</span><em class="sig-param">failobj=None</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.get_filename" title="永久链接至目标">¶</a></dt>
+<dd><p>返回信息头当中 <em class="mailheader">Content-Disposition</em> 字段当中名为 <code class="docutils literal notranslate"><span class="pre">filename</span></code> 的参数值。如果该字段当中没有此参数，该方法会退而寻找 <em class="mailheader">Content-Type</em> 字段当中的 <code class="docutils literal notranslate"><span class="pre">name</span></code> 参数值。如果这个也没有找到，或者这些个字段压根就不存在，返回 <em>failobj</em> 。返回的字符串永远按照 <a class="reference internal" href="email.utils.html#email.utils.unquote" title="email.utils.unquote"><code class="xref py py-func docutils literal notranslate"><span class="pre">email.utils.unquote()</span></code></a> 方法去除引号。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.get_boundary">
+<code class="sig-name descname">get_boundary</code><span class="sig-paren">(</span><em class="sig-param">failobj=None</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.get_boundary" title="永久链接至目标">¶</a></dt>
+<dd><p>返回信息头当中 <em class="mailheader">Content-Type</em> 字段当中名为 <code class="docutils literal notranslate"><span class="pre">boundary</span></code> 的参数值。如果字段当中没有此参数，或者这些个字段压根就不存在，返回 <em>failobj</em> 。返回的字符串永远按照 <a class="reference internal" href="email.utils.html#email.utils.unquote" title="email.utils.unquote"><code class="xref py py-func docutils literal notranslate"><span class="pre">email.utils.unquote()</span></code></a> 方法去除引号。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.set_boundary">
+<code class="sig-name descname">set_boundary</code><span class="sig-paren">(</span><em class="sig-param">boundary</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.set_boundary" title="永久链接至目标">¶</a></dt>
+<dd><p>将 <em class="mailheader">Content-Type</em> 头字段的 <code class="docutils literal notranslate"><span class="pre">boundary</span></code> 参数设置为 <em>boundary</em> 。 <a class="reference internal" href="#email.message.EmailMessage.set_boundary" title="email.message.EmailMessage.set_boundary"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_boundary()</span></code></a> 方法永远都会在必要的时候为 <em>boundary</em> 添加引号。如果信息对象中没有 <em class="mailheader">Content-Type</em> 头字段，抛出 <a class="reference internal" href="email.errors.html#email.errors.HeaderParseError" title="email.errors.HeaderParseError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">HeaderParseError</span></code></a> 异常。</p>
+<p>请注意使用这个方法与直接删除旧的 <em class="mailheader">Content-Type</em> 头字段然后使用 <a class="reference internal" href="#email.message.EmailMessage.add_header" title="email.message.EmailMessage.add_header"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_header()</span></code></a> 方法添加一个带有新边界值参数的 <em class="mailheader">Content-Type</em> 头字段有细微差距。 <a class="reference internal" href="#email.message.EmailMessage.set_boundary" title="email.message.EmailMessage.set_boundary"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_boundary()</span></code></a> 方法会保留 <em class="mailheader">Content-Type</em> 头字段在原信息头当中的位置。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.get_content_charset">
+<code class="sig-name descname">get_content_charset</code><span class="sig-paren">(</span><em class="sig-param">failobj=None</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.get_content_charset" title="永久链接至目标">¶</a></dt>
+<dd><p>返回 <em class="mailheader">Content-Type</em> 头字段中的 <code class="docutils literal notranslate"><span class="pre">charset</span></code> 参数，强制小写。如果字段当中没有此参数，或者这个字段压根不存在，返回 <em>failobj</em> 。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.get_charsets">
+<code class="sig-name descname">get_charsets</code><span class="sig-paren">(</span><em class="sig-param">failobj=None</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.get_charsets" title="永久链接至目标">¶</a></dt>
+<dd><p>返回一个包含了信息内所有字符集名字的列表。如果信息是 <em class="mimetype">multipart</em> 类型的，那么列表当中的每一项都对应其负载的子部分的字符集名字。否则，该列表是一个长度为1的列表。</p>
+<p>列表当中的每一项都是一个字符串，其值为对应子部分的 <em class="mailheader">Content-Type</em> 头字段的 <code class="docutils literal notranslate"><span class="pre">charset</span></code> 参数值。如果该子部分没有此头字段，或者没有此参数，或者其主要 MIME 类型并非 <em class="mimetype">text</em> ，那么列表中的那一项即为 <em>failobj</em> 。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.is_attachment">
+<code class="sig-name descname">is_attachment</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.is_attachment" title="永久链接至目标">¶</a></dt>
+<dd><p>如果信息头当中存在一个名为 <em class="mailheader">Content-Disposition</em> 的字段，且该字段的值为 <code class="docutils literal notranslate"><span class="pre">attachment</span></code> （大小写无关），返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> 。否则，返回 <code class="docutils literal notranslate"><span class="pre">False</span></code> 。</p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">在 3.4.2 版更改: </span>为了与 <a class="reference internal" href="email.compat32-message.html#email.message.Message.is_multipart" title="email.message.Message.is_multipart"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_multipart()</span></code></a> 方法一致，is_attachment 现在是一个方法，不再是属性了。</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.get_content_disposition">
+<code class="sig-name descname">get_content_disposition</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.get_content_disposition" title="永久链接至目标">¶</a></dt>
+<dd><p>如果信息的 <em class="mailheader">Content-Disposition</em> 头字段存在，返回其字段值；否则返回 <code class="docutils literal notranslate"><span class="pre">None</span></code> 。返回的值均为小写，不包含参数。如果信息遵循 <span class="target" id="index-30"></span><a class="rfc reference external" href="https://tools.ietf.org/html/rfc2183.html"><strong>RFC 2183</strong></a> 标准，则返回值只可能在 <em>inline</em> 、 <em>attachment</em> 和 <code class="docutils literal notranslate"><span class="pre">None</span></code> 之间选择。</p>
+<div class="versionadded">
+<p><span class="versionmodified added">3.5 新版功能.</span></p>
+</div>
+</dd></dl>
+
+<p>下列方法与信息内容（负载）之访问与操控有关。</p>
+<dl class="method">
+<dt id="email.message.EmailMessage.walk">
+<code class="sig-name descname">walk</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.walk" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference internal" href="#email.message.EmailMessage.walk" title="email.message.EmailMessage.walk"><code class="xref py py-meth docutils literal notranslate"><span class="pre">walk()</span></code></a> 方法是一个多功能生成器。它可以被用来以深度优先顺序遍历信息对象树的所有部分和子部分。一般而言， <a class="reference internal" href="#email.message.EmailMessage.walk" title="email.message.EmailMessage.walk"><code class="xref py py-meth docutils literal notranslate"><span class="pre">walk()</span></code></a> 会被用作 <code class="docutils literal notranslate"><span class="pre">for</span></code> 循环的迭代器，每一次迭代都返回其下一个子部分。</p>
+<p>以下例子会打印出一封具有多部分结构之信息的每个部分的 MIME 类型。</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">msg</span><span class="o">.</span><span class="n">walk</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">get_content_type</span><span class="p">())</span>
+<span class="go">multipart/report</span>
+<span class="go">text/plain</span>
+<span class="go">message/delivery-status</span>
+<span class="go">text/plain</span>
+<span class="go">text/plain</span>
+<span class="go">message/rfc822</span>
+<span class="go">text/plain</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">walk</span></code> 会遍历所有 <a class="reference internal" href="#email.message.EmailMessage.is_multipart" title="email.message.EmailMessage.is_multipart"><code class="xref py py-meth docutils literal notranslate"><span class="pre">is_multipart()</span></code></a> 方法返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> 的部分之子部分，哪怕 <code class="docutils literal notranslate"><span class="pre">msg.get_content_maintype()</span> <span class="pre">==</span> <span class="pre">'multipart'</span></code> 返回的是 <code class="docutils literal notranslate"><span class="pre">False</span></code> 。使用 <code class="docutils literal notranslate"><span class="pre">_structure</span></code> 除错帮助函数可以帮助我们在下面这个例子当中看清楚这一点：</p>
+<div class="highlight-pycon3 notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">msg</span><span class="o">.</span><span class="n">walk</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">get_content_maintype</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;multipart&#39;</span><span class="p">,</span>
+<span class="gp">... </span>          <span class="n">part</span><span class="o">.</span><span class="n">is_multipart</span><span class="p">())</span>
+<span class="go">True True</span>
+<span class="go">False False</span>
+<span class="go">False True</span>
+<span class="go">False False</span>
+<span class="go">False False</span>
+<span class="go">False True</span>
+<span class="go">False False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_structure</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="go">multipart/report</span>
+<span class="go">    text/plain</span>
+<span class="go">    message/delivery-status</span>
+<span class="go">        text/plain</span>
+<span class="go">        text/plain</span>
+<span class="go">    message/rfc822</span>
+<span class="go">        text/plain</span>
+</pre></div>
+</div>
+<p>在这里， <code class="docutils literal notranslate"><span class="pre">message</span></code> 的部分并非 <code class="docutils literal notranslate"><span class="pre">multiparts</span></code> ，但是它们真的包含子部分！ <code class="docutils literal notranslate"><span class="pre">is_multipart()</span></code> 返回 <code class="docutils literal notranslate"><span class="pre">True</span></code> ， <code class="docutils literal notranslate"><span class="pre">walk</span></code> 也深入进这些子部分中。</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.get_body">
+<code class="sig-name descname">get_body</code><span class="sig-paren">(</span><em class="sig-param">preferencelist=('related'</em>, <em class="sig-param">'html'</em>, <em class="sig-param">'plain')</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.get_body" title="永久链接至目标">¶</a></dt>
+<dd><p>返回信息的 MIME 部分。这个部分是最可能成为信息体的部分。</p>
+<p><em>preferencelist</em> 必须是一个字符串序列，其内容从 <code class="docutils literal notranslate"><span class="pre">related</span></code> 、 <code class="docutils literal notranslate"><span class="pre">html</span></code> 和 <code class="docutils literal notranslate"><span class="pre">plain</span></code> 这三者组成的集合中选取。这个序列代表着返回的部分的内容类型之偏好。</p>
+<p>在 <code class="docutils literal notranslate"><span class="pre">get_body</span></code> 方法被调用的对象上寻找匹配的候选者。</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">related</span></code> is not included in <em>preferencelist</em>, consider the root
+part (or subpart of the root part) of any related encountered as a
+candidate if the (sub-)part matches a preference.</p>
+<p>When encountering a <code class="docutils literal notranslate"><span class="pre">multipart/related</span></code>, check the <code class="docutils literal notranslate"><span class="pre">start</span></code> parameter
+and if a part with a matching <em class="mailheader">Content-ID</em> is found, consider
+only it when looking for candidate matches.  Otherwise consider only the
+first (default root) part of the <code class="docutils literal notranslate"><span class="pre">multipart/related</span></code>.</p>
+<p>If a part has a <em class="mailheader">Content-Disposition</em> header, only consider
+the part a candidate match if the value of the header is <code class="docutils literal notranslate"><span class="pre">inline</span></code>.</p>
+<p>If none of the candidates matches any of the preferences in
+<em>preferencelist</em>, return <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<p>Notes: (1) For most applications the only <em>preferencelist</em> combinations
+that really make sense are <code class="docutils literal notranslate"><span class="pre">('plain',)</span></code>, <code class="docutils literal notranslate"><span class="pre">('html',</span> <span class="pre">'plain')</span></code>, and the
+default <code class="docutils literal notranslate"><span class="pre">('related',</span> <span class="pre">'html',</span> <span class="pre">'plain')</span></code>.  (2) Because matching starts
+with the object on which <code class="docutils literal notranslate"><span class="pre">get_body</span></code> is called, calling <code class="docutils literal notranslate"><span class="pre">get_body</span></code> on
+a <code class="docutils literal notranslate"><span class="pre">multipart/related</span></code> will return the object itself unless
+<em>preferencelist</em> has a non-default value. (3) Messages (or message parts)
+that do not specify a <em class="mailheader">Content-Type</em> or whose
+<em class="mailheader">Content-Type</em> header is invalid will be treated as if they
+are of type <code class="docutils literal notranslate"><span class="pre">text/plain</span></code>, which may occasionally cause <code class="docutils literal notranslate"><span class="pre">get_body</span></code> to
+return unexpected results.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.iter_attachments">
+<code class="sig-name descname">iter_attachments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.iter_attachments" title="永久链接至目标">¶</a></dt>
+<dd><p>Return an iterator over all of the immediate sub-parts of the message
+that are not candidate “body” parts.  That is, skip the first occurrence
+of each of <code class="docutils literal notranslate"><span class="pre">text/plain</span></code>, <code class="docutils literal notranslate"><span class="pre">text/html</span></code>, <code class="docutils literal notranslate"><span class="pre">multipart/related</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">multipart/alternative</span></code> (unless they are explicitly marked as
+attachments via <em class="mailheader">Content-Disposition: attachment</em>), and
+return all remaining parts.  When applied directly to a
+<code class="docutils literal notranslate"><span class="pre">multipart/related</span></code>, return an iterator over the all the related parts
+except the root part (ie: the part pointed to by the <code class="docutils literal notranslate"><span class="pre">start</span></code> parameter,
+or the first part if there is no <code class="docutils literal notranslate"><span class="pre">start</span></code> parameter or the <code class="docutils literal notranslate"><span class="pre">start</span></code>
+parameter doesn’t match the <em class="mailheader">Content-ID</em> of any of the
+parts).  When applied directly to a <code class="docutils literal notranslate"><span class="pre">multipart/alternative</span></code> or a
+non-<code class="docutils literal notranslate"><span class="pre">multipart</span></code>, return an empty iterator.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.iter_parts">
+<code class="sig-name descname">iter_parts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.iter_parts" title="永久链接至目标">¶</a></dt>
+<dd><p>Return an iterator over all of the immediate sub-parts of the message,
+which will be empty for a non-<code class="docutils literal notranslate"><span class="pre">multipart</span></code>.  (See also
+<a class="reference internal" href="#email.message.EmailMessage.walk" title="email.message.EmailMessage.walk"><code class="xref py py-meth docutils literal notranslate"><span class="pre">walk()</span></code></a>.)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.get_content">
+<code class="sig-name descname">get_content</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">content_manager=None</em>, <em class="sig-param">**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.get_content" title="永久链接至目标">¶</a></dt>
+<dd><p>Call the <a class="reference internal" href="email.contentmanager.html#email.contentmanager.ContentManager.get_content" title="email.contentmanager.ContentManager.get_content"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_content()</span></code></a> method
+of the <em>content_manager</em>, passing self as the message object, and passing
+along any other arguments or keywords as additional arguments.  If
+<em>content_manager</em> is not specified, use the <code class="docutils literal notranslate"><span class="pre">content_manager</span></code> specified
+by the current <a class="reference internal" href="email.policy.html#module-email.policy" title="email.policy: Controlling the parsing and generating of messages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">policy</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.set_content">
+<code class="sig-name descname">set_content</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">content_manager=None</em>, <em class="sig-param">**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.set_content" title="永久链接至目标">¶</a></dt>
+<dd><p>Call the <a class="reference internal" href="email.contentmanager.html#email.contentmanager.ContentManager.set_content" title="email.contentmanager.ContentManager.set_content"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_content()</span></code></a> method
+of the <em>content_manager</em>, passing self as the message object, and passing
+along any other arguments or keywords as additional arguments.  If
+<em>content_manager</em> is not specified, use the <code class="docutils literal notranslate"><span class="pre">content_manager</span></code> specified
+by the current <a class="reference internal" href="email.policy.html#module-email.policy" title="email.policy: Controlling the parsing and generating of messages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">policy</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.make_related">
+<code class="sig-name descname">make_related</code><span class="sig-paren">(</span><em class="sig-param">boundary=None</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.make_related" title="永久链接至目标">¶</a></dt>
+<dd><p>Convert a non-<code class="docutils literal notranslate"><span class="pre">multipart</span></code> message into a <code class="docutils literal notranslate"><span class="pre">multipart/related</span></code> message,
+moving any existing <em class="mailheader">Content-</em> headers and payload into a
+(new) first part of the <code class="docutils literal notranslate"><span class="pre">multipart</span></code>.  If <em>boundary</em> is specified, use
+it as the boundary string in the multipart, otherwise leave the boundary
+to be automatically created when it is needed (for example, when the
+message is serialized).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.make_alternative">
+<code class="sig-name descname">make_alternative</code><span class="sig-paren">(</span><em class="sig-param">boundary=None</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.make_alternative" title="永久链接至目标">¶</a></dt>
+<dd><p>Convert a non-<code class="docutils literal notranslate"><span class="pre">multipart</span></code> or a <code class="docutils literal notranslate"><span class="pre">multipart/related</span></code> into a
+<code class="docutils literal notranslate"><span class="pre">multipart/alternative</span></code>, moving any existing <em class="mailheader">Content-</em>
+headers and payload into a (new) first part of the <code class="docutils literal notranslate"><span class="pre">multipart</span></code>.  If
+<em>boundary</em> is specified, use it as the boundary string in the multipart,
+otherwise leave the boundary to be automatically created when it is
+needed (for example, when the message is serialized).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.make_mixed">
+<code class="sig-name descname">make_mixed</code><span class="sig-paren">(</span><em class="sig-param">boundary=None</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.make_mixed" title="永久链接至目标">¶</a></dt>
+<dd><p>Convert a non-<code class="docutils literal notranslate"><span class="pre">multipart</span></code>, a <code class="docutils literal notranslate"><span class="pre">multipart/related</span></code>, or a
+<code class="docutils literal notranslate"><span class="pre">multipart-alternative</span></code> into a <code class="docutils literal notranslate"><span class="pre">multipart/mixed</span></code>, moving any existing
+<em class="mailheader">Content-</em> headers and payload into a (new) first part of the
+<code class="docutils literal notranslate"><span class="pre">multipart</span></code>.  If <em>boundary</em> is specified, use it as the boundary string
+in the multipart, otherwise leave the boundary to be automatically
+created when it is needed (for example, when the message is serialized).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.add_related">
+<code class="sig-name descname">add_related</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">content_manager=None</em>, <em class="sig-param">**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.add_related" title="永久链接至目标">¶</a></dt>
+<dd><p>If the message is a <code class="docutils literal notranslate"><span class="pre">multipart/related</span></code>, create a new message
+object, pass all of the arguments to its <a class="reference internal" href="#email.message.EmailMessage.set_content" title="email.message.EmailMessage.set_content"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_content()</span></code></a> method,
+and <a class="reference internal" href="email.compat32-message.html#email.message.Message.attach" title="email.message.Message.attach"><code class="xref py py-meth docutils literal notranslate"><span class="pre">attach()</span></code></a> it to the <code class="docutils literal notranslate"><span class="pre">multipart</span></code>.  If
+the message is a non-<code class="docutils literal notranslate"><span class="pre">multipart</span></code>, call <a class="reference internal" href="#email.message.EmailMessage.make_related" title="email.message.EmailMessage.make_related"><code class="xref py py-meth docutils literal notranslate"><span class="pre">make_related()</span></code></a> and then
+proceed as above.  If the message is any other type of <code class="docutils literal notranslate"><span class="pre">multipart</span></code>,
+raise a <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>. If <em>content_manager</em> is not specified, use
+the <code class="docutils literal notranslate"><span class="pre">content_manager</span></code> specified by the current <a class="reference internal" href="email.policy.html#module-email.policy" title="email.policy: Controlling the parsing and generating of messages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">policy</span></code></a>.
+If the added part has no <em class="mailheader">Content-Disposition</em> header,
+add one with the value <code class="docutils literal notranslate"><span class="pre">inline</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.add_alternative">
+<code class="sig-name descname">add_alternative</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">content_manager=None</em>, <em class="sig-param">**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.add_alternative" title="永久链接至目标">¶</a></dt>
+<dd><p>If the message is a <code class="docutils literal notranslate"><span class="pre">multipart/alternative</span></code>, create a new message
+object, pass all of the arguments to its <a class="reference internal" href="#email.message.EmailMessage.set_content" title="email.message.EmailMessage.set_content"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_content()</span></code></a> method, and
+<a class="reference internal" href="email.compat32-message.html#email.message.Message.attach" title="email.message.Message.attach"><code class="xref py py-meth docutils literal notranslate"><span class="pre">attach()</span></code></a> it to the <code class="docutils literal notranslate"><span class="pre">multipart</span></code>.  If the
+message is a non-<code class="docutils literal notranslate"><span class="pre">multipart</span></code> or <code class="docutils literal notranslate"><span class="pre">multipart/related</span></code>, call
+<a class="reference internal" href="#email.message.EmailMessage.make_alternative" title="email.message.EmailMessage.make_alternative"><code class="xref py py-meth docutils literal notranslate"><span class="pre">make_alternative()</span></code></a> and then proceed as above.  If the message is
+any other type of <code class="docutils literal notranslate"><span class="pre">multipart</span></code>, raise a <a class="reference internal" href="exceptions.html#TypeError" title="TypeError"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>. If
+<em>content_manager</em> is not specified, use the <code class="docutils literal notranslate"><span class="pre">content_manager</span></code> specified
+by the current <a class="reference internal" href="email.policy.html#module-email.policy" title="email.policy: Controlling the parsing and generating of messages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">policy</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.add_attachment">
+<code class="sig-name descname">add_attachment</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">content_manager=None</em>, <em class="sig-param">**kw</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.add_attachment" title="永久链接至目标">¶</a></dt>
+<dd><p>If the message is a <code class="docutils literal notranslate"><span class="pre">multipart/mixed</span></code>, create a new message object,
+pass all of the arguments to its <a class="reference internal" href="#email.message.EmailMessage.set_content" title="email.message.EmailMessage.set_content"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_content()</span></code></a> method, and
+<a class="reference internal" href="email.compat32-message.html#email.message.Message.attach" title="email.message.Message.attach"><code class="xref py py-meth docutils literal notranslate"><span class="pre">attach()</span></code></a> it to the <code class="docutils literal notranslate"><span class="pre">multipart</span></code>.  If the
+message is a non-<code class="docutils literal notranslate"><span class="pre">multipart</span></code>, <code class="docutils literal notranslate"><span class="pre">multipart/related</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">multipart/alternative</span></code>, call <a class="reference internal" href="#email.message.EmailMessage.make_mixed" title="email.message.EmailMessage.make_mixed"><code class="xref py py-meth docutils literal notranslate"><span class="pre">make_mixed()</span></code></a> and then proceed as
+above. If <em>content_manager</em> is not specified, use the <code class="docutils literal notranslate"><span class="pre">content_manager</span></code>
+specified by the current <a class="reference internal" href="email.policy.html#module-email.policy" title="email.policy: Controlling the parsing and generating of messages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">policy</span></code></a>.  If the added part
+has no <em class="mailheader">Content-Disposition</em> header, add one with the value
+<code class="docutils literal notranslate"><span class="pre">attachment</span></code>.  This method can be used both for explicit attachments
+(<em class="mailheader">Content-Disposition: attachment</em>) and <code class="docutils literal notranslate"><span class="pre">inline</span></code> attachments
+(<em class="mailheader">Content-Disposition: inline</em>), by passing appropriate
+options to the <code class="docutils literal notranslate"><span class="pre">content_manager</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.clear">
+<code class="sig-name descname">clear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.clear" title="永久链接至目标">¶</a></dt>
+<dd><p>Remove the payload and all of the headers.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="email.message.EmailMessage.clear_content">
+<code class="sig-name descname">clear_content</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#email.message.EmailMessage.clear_content" title="永久链接至目标">¶</a></dt>
+<dd><p>Remove the payload and all of the <code class="xref py py-exc docutils literal notranslate"><span class="pre">Content-</span></code> headers, leaving
+all other headers intact and in their original order.</p>
+</dd></dl>
+
+<p><a class="reference internal" href="#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a> objects have the following instance attributes:</p>
+<dl class="attribute">
+<dt id="email.message.EmailMessage.preamble">
+<code class="sig-name descname">preamble</code><a class="headerlink" href="#email.message.EmailMessage.preamble" title="永久链接至目标">¶</a></dt>
+<dd><p>The format of a MIME document allows for some text between the blank line
+following the headers, and the first multipart boundary string. Normally,
+this text is never visible in a MIME-aware mail reader because it falls
+outside the standard MIME armor.  However, when viewing the raw text of
+the message, or when viewing the message in a non-MIME aware reader, this
+text can become visible.</p>
+<p>The <em>preamble</em> attribute contains this leading extra-armor text for MIME
+documents.  When the <a class="reference internal" href="email.parser.html#email.parser.Parser" title="email.parser.Parser"><code class="xref py py-class docutils literal notranslate"><span class="pre">Parser</span></code></a> discovers some text
+after the headers but before the first boundary string, it assigns this
+text to the message’s <em>preamble</em> attribute.  When the
+<a class="reference internal" href="email.generator.html#email.generator.Generator" title="email.generator.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a> is writing out the plain text
+representation of a MIME message, and it finds the
+message has a <em>preamble</em> attribute, it will write this text in the area
+between the headers and the first boundary.  See <a class="reference internal" href="email.parser.html#module-email.parser" title="email.parser: Parse flat text email messages to produce a message object structure."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.parser</span></code></a> and
+<a class="reference internal" href="email.generator.html#module-email.generator" title="email.generator: Generate flat text email messages from a message structure."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.generator</span></code></a> for details.</p>
+<p>Note that if the message object has no preamble, the <em>preamble</em> attribute
+will be <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="email.message.EmailMessage.epilogue">
+<code class="sig-name descname">epilogue</code><a class="headerlink" href="#email.message.EmailMessage.epilogue" title="永久链接至目标">¶</a></dt>
+<dd><p>The <em>epilogue</em> attribute acts the same way as the <em>preamble</em> attribute,
+except that it contains text that appears between the last boundary and
+the end of the message.  As with the <a class="reference internal" href="#email.message.EmailMessage.preamble" title="email.message.EmailMessage.preamble"><code class="xref py py-attr docutils literal notranslate"><span class="pre">preamble</span></code></a>,
+if there is no epilog text this attribute will be <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="email.message.EmailMessage.defects">
+<code class="sig-name descname">defects</code><a class="headerlink" href="#email.message.EmailMessage.defects" title="永久链接至目标">¶</a></dt>
+<dd><p>The <em>defects</em> attribute contains a list of all the problems found when
+parsing this message.  See <a class="reference internal" href="email.errors.html#module-email.errors" title="email.errors: The exception classes used by the email package."><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.errors</span></code></a> for a detailed description
+of the possible parsing defects.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="email.message.MIMEPart">
+<em class="property">class </em><code class="sig-prename descclassname">email.message.</code><code class="sig-name descname">MIMEPart</code><span class="sig-paren">(</span><em class="sig-param">policy=default</em><span class="sig-paren">)</span><a class="headerlink" href="#email.message.MIMEPart" title="永久链接至目标">¶</a></dt>
+<dd><p>This class represents a subpart of a MIME message.  It is identical to
+<a class="reference internal" href="#email.message.EmailMessage" title="email.message.EmailMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">EmailMessage</span></code></a>, except that no <em class="mailheader">MIME-Version</em> headers are
+added when <a class="reference internal" href="#email.message.EmailMessage.set_content" title="email.message.EmailMessage.set_content"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_content()</span></code></a> is called, since sub-parts do
+not need their own <em class="mailheader">MIME-Version</em> headers.</p>
+</dd></dl>
+
+<p class="rubric">备注</p>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>原先在3.4版本中以 <a class="reference internal" href="../glossary.html#term-provisional-package"><span class="xref std std-term">provisional module</span></a> 添加。过时的文档被移动至 <a class="reference internal" href="email.compat32-message.html#compat32-message"><span class="std std-ref">email.message.Message: Representing an email message using the compat32 API</span></a> 。</p>
+</dd>
+</dl>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>上一个主题</h4>
+  <p class="topless"><a href="email.html"
+                        title="上一章"><span class="section-number">19.1. </span><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code> — 电子邮件与 MIME 处理包</a></p>
+  <h4>下一个主题</h4>
+  <p class="topless"><a href="email.parser.html"
+                        title="下一章"><span class="section-number">19.1.2. </span><code class="xref py py-mod docutils literal notranslate"><span class="pre">email.parser</span></code>: 解析电子邮件信息</a></p>
+  <div role="note" aria-label="source link">
+    <h3>本页</h3>
+    <ul class="this-page-menu">
+      <li><a href="../bugs.html">提交 Bug</a></li>
+      <li>
+        <a href="https://github.com/python/cpython/blob/3.6/Doc/library/email.message.rst"
+            rel="nofollow">显示源代码
+        </a>
+      </li>
+    </ul>
+  </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>导航</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="总目录"
+             >索引</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python 模块索引"
+             >模块</a> |</li>
+        <li class="right" >
+          <a href="email.parser.html" title="19.1.2. email.parser: 解析电子邮件信息"
+             >下一页</a> |</li>
+        <li class="right" >
+          <a href="email.html" title="19.1. email — 电子邮件与 MIME 处理包"
+             >上一页</a> |</li>
+        <li><img src="../_static/py.png" alt=""
+                 style="vertical-align: middle; margin-top: -1px"/></li>
+        <li><a href="https://www.python.org/">Python</a> &#187;</li>
+        <li>
+          <a href="../index.html">3.6.12 Documentation</a> &#187;
+        </li>
+
+          <li class="nav-item nav-item-1"><a href="index.html" >Python 标准库</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="netdata.html" ><span class="section-number">19. </span>互联网数据处理</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="email.html" ><span class="section-number">19.1. </span><code class="xref py py-mod docutils literal notranslate"><span class="pre">email</span></code> — 电子邮件与 MIME 处理包</a> &#187;</li>
+    <li class="right">
+        
+
+    <div class="inline-search" style="display: none" role="search">
+        <form class="inline-search" action="../search.html" method="get">
+          <input placeholder="快速搜索" type="text" name="q" />
+          <input type="submit" value="转向" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+        </form>
+    </div>
+    <script type="text/javascript">$('.inline-search').show(0);</script>
+         |
+    </li>
+
+      </ul>
+    </div>  
+    <div class="footer">
+    &copy; <a href="../copyright.html">版权所有</a> 2001-2020, Python Software Foundation.
+    <br />
+    Python 软件基金会是一个非盈利组织。
+    <a href="https://www.python.org/psf/donations/">请捐助。</a>
+    <br />
+    最后更新于 10月 06, 2020.
+    <a href="../bugs.html">发现了问题</a>？
+    <br />
+    使用<a href="http://sphinx.pocoo.org/">Sphinx</a>2.3.1 创建。
+    </div>
+
+  </body>
+</html>
