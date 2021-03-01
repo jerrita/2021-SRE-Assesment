@@ -1,6 +1,8 @@
 ## SRE Winter Assessment
 Task-1.
 
+这个玩具项目还会有鸽子更新，见 [qwqVictor/netfwd](https://github.com/qwqVictor/netfwd)。
+
 ### Summary
 
 果然鸽子的下场就是两天半 851 行代码。(2.25 - 2.27)
